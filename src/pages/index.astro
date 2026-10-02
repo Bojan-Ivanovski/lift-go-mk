@@ -32,7 +32,7 @@ const steps = [
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#11110f" />
+    <meta name="theme-color" content="#363735" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
@@ -50,71 +50,54 @@ const steps = [
       sameAs: [instagram], serviceType: ['Лифт за мебел', 'Вертикален транспорт', 'Помош при преселба']
     })} />
   </head>
-  <body class="noise overflow-x-hidden">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:bg-acid focus:px-4 focus:py-3">Прескокни до содржината</a>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-cream focus:px-4 focus:py-3 focus:text-ink">Прескокни до содржината</a>
 
-    <header class="border-b-2 border-ink bg-paper">
-      <div class="frame flex h-20 items-center justify-between">
-        <a href="#" class="display text-3xl" aria-label="LiftGoMK почетна">LIFTGO<span class="text-orange">MK</span></a>
-        <nav class="hidden items-center gap-8 text-sm font-bold uppercase tracking-wider md:flex" aria-label="Главна навигација">
-          <a class="hover:underline" href="#uslugi">Услуги</a><a class="hover:underline" href="#kako">Како работи</a><a class="hover:underline" href="#video">На терен</a>
-        </nav>
-        <a href={phoneHref} class="bg-ink px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-orange">Јави се · {phoneDisplay}</a>
-      </div>
+    <header class="shell relative z-10 flex items-center justify-between gap-4 py-5 sm:py-6">
+      <a href="#top" class="display text-2xl text-cream" aria-label="LiftGoMK почетна">LIFTGO<span class="text-signal">MK</span></a>
+      <nav class="hidden items-center gap-8 text-base font-bold text-cream/70 md:flex" aria-label="Главна навигација">
+        <a class="transition hover:text-cream" href="#uslugi">Услуги</a>
+        <a class="transition hover:text-cream" href="#kako">Како работиме</a>
+        <a class="transition hover:text-cream" href="#video">На терен</a>
+        <a class="transition hover:text-cream" href="#kontakt">Контакт</a>
+      </nav>
+      <a href={phoneHref} class="rounded-full border border-white/35 bg-frost px-5 py-2.5 text-sm font-black text-ink shadow-lg transition hover:bg-cream">{phoneDisplay}</a>
     </header>
 
     <main id="main">
-      <section class="relative border-b-2 border-ink bg-ink text-paper">
-        <div class="frame grid min-h-[calc(100svh-5rem)] items-stretch lg:grid-cols-[1.35fr_.65fr]">
-          <div class="flex flex-col justify-between py-12 pr-0 lg:border-r-2 lg:border-paper/20 lg:py-18 lg:pr-14">
-            <p class="mb-8 flex items-center gap-3 text-sm font-black uppercase tracking-[.2em] text-acid"><span class="h-3 w-3 bg-acid"></span> Скопје · вертикален транспорт</p>
-            <div>
-              <h1 class="display max-w-4xl text-[clamp(4.6rem,15vw,10.5rem)] leading-[.76]">ГОРЕ.<br/><span class="text-acid">БЕЗ</span><br/>МАКА.</h1>
-              <p class="mt-9 max-w-xl text-xl leading-relaxed text-paper/75">Кога мебелот не собира во лифт, скалите се тесни или товарот е претежок — го креваме однадвор, директно до кат.</p>
-            </div>
-            <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href={instagram} target="_blank" rel="noopener noreferrer" class="bg-acid px-7 py-4 text-center font-black uppercase tracking-wide text-ink transition hover:bg-orange hover:text-white">Побарај проценка</a>
-              <a href={phoneHref} class="border-2 border-paper/40 px-7 py-4 text-center font-black uppercase tracking-wide transition hover:border-acid hover:text-acid">{phoneDisplay}</a>
-            </div>
+      <section id="top" class="shell grid items-center gap-10 pb-16 pt-5 lg:grid-cols-2 lg:gap-16 lg:pb-24 lg:pt-12">
+        <div>
+          <p class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-black uppercase tracking-wider text-mint backdrop-blur"><span class="h-2 w-2 rounded-full bg-signal"></span> Скопје · надворешно кревање</p>
+          <h1 class="display text-[clamp(4.2rem,9vw,8.2rem)] leading-[.84] text-cream">ГОРЕ.<br/><span class="text-signal">БЕЗ МАКА.</span></h1>
+          <p class="mt-7 max-w-xl text-xl leading-relaxed text-cream/70">Кога мебелот не собира во лифт или скалите се тесни — го креваме однадвор, директно до кат.</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={phoneHref} class="rounded-xl border border-white/40 bg-frost px-7 py-4 text-center text-lg font-black text-ink shadow-xl transition hover:bg-cream">Повикај {phoneDisplay}</a>
+            <a href={instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black text-cream backdrop-blur transition hover:bg-white/10">Instagram DM</a>
           </div>
-          <div class="relative hidden overflow-hidden lg:block" aria-hidden="true">
-            <div class="absolute inset-x-12 bottom-12 top-12 border-2 border-paper/25">
-              <div class="absolute inset-x-0 top-1/3 border-t-2 border-paper/15"></div><div class="absolute inset-x-0 top-2/3 border-t-2 border-paper/15"></div>
-              <div class="lift-line absolute inset-x-7 bottom-10 border-2 border-acid bg-ink p-7 text-acid">
-                <div class="display text-7xl">↑ 09</div><p class="mt-2 text-sm font-bold uppercase tracking-[.2em]">директно до кат</p>
-              </div>
-            </div>
-            <p class="absolute right-[-2rem] top-1/2 rotate-90 text-xs font-bold uppercase tracking-[.4em] text-paper/40">Lift · Load · Go</p>
-          </div>
+        </div>
+        <div class="glass-shadow relative mx-2 rounded-2xl border border-white/35 bg-frost p-2 sm:mx-4 lg:mx-0">
+          <img src={`${basePath}lift-hero.jpg`} alt="Надворешен лифт крева софа до балкон во Скопје" width="1024" height="1280" class="h-72 w-full rounded-xl object-cover object-[center_40%] sm:h-[30rem] lg:h-[34rem]" fetchpriority="high" />
+          <div class="absolute -bottom-5 -left-3 rounded-xl border border-white/25 bg-ink/90 px-6 py-4 backdrop-blur sm:-left-5"><div class="display text-4xl text-signal">0</div><div class="text-sm font-black uppercase tracking-wider text-cream/65">Скали користени</div></div>
         </div>
       </section>
 
-      <div class="overflow-hidden border-b-2 border-ink bg-acid py-3 text-ink" aria-hidden="true"><div class="ticker flex w-max whitespace-nowrap text-sm font-black uppercase tracking-[.18em]"><span>Мебел · Бела техника · Материјал · Високи катови · Брза поставеност · </span><span>Мебел · Бела техника · Материјал · Високи катови · Брза поставеност · </span></div></div>
-
-      <section id="uslugi" class="frame py-20 lg:py-28">
-        <div class="grid gap-10 lg:grid-cols-[.55fr_1.45fr]">
-          <div><p class="text-sm font-black uppercase tracking-[.2em] text-orange">Што креваме</p><h2 class="display mt-3 text-6xl leading-none lg:text-7xl">ТЕШКОТО<br/>Е НАША<br/>РАБОТА.</h2></div>
-          <div class="border-t-2 border-ink">
-            {services.map((service) => <article class="grid gap-4 border-b-2 border-ink py-8 sm:grid-cols-[4rem_1fr_1.2fr] sm:items-start"><span class="display text-3xl text-orange">{service.n}</span><h3 class="display text-3xl leading-none">{service.title}</h3><p class="text-lg leading-relaxed text-ink/70">{service.text}</p></article>)}
-          </div>
+      <section id="uslugi" class="frosted scroll-mt-8 border-y border-white/35 py-16 text-ink md:py-24">
+        <div class="shell"><div class="mb-10 flex items-end justify-between gap-5"><h2 class="display text-5xl md:text-6xl">Што креваме</h2><p class="hidden text-base font-bold text-ink/55 md:block">до балкон · до прозорец · без скали</p></div>
+          <div class="grid gap-5 md:grid-cols-3">{services.map((service) => <article class="min-h-60 rounded-2xl border border-ink/10 bg-cream/60 p-7 backdrop-blur"><div class="display text-5xl text-signal">{service.n}</div><h3 class="mt-5 text-2xl font-black">{service.title}</h3><p class="mt-3 text-lg leading-relaxed text-ink/65">{service.text}</p></article>)}</div>
         </div>
       </section>
 
-      <section id="kako" class="border-y-2 border-ink bg-orange text-white">
-        <div class="frame py-20 lg:py-24"><div class="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end"><h2 class="display text-6xl leading-none lg:text-8xl">ОД ПОРАКА<br/>ДО КАТ.</h2><p class="max-w-sm text-lg text-white/80">Три јасни чекори. Најважни се точната локација, пристапот до објектот и висината.</p></div><div class="grid border-2 border-white md:grid-cols-3">{steps.map(([heading, text], i) => <article class:list={["p-7 lg:p-9", i < 2 && "border-b-2 border-white md:border-b-0 md:border-r-2"]}><span class="display text-6xl text-acid">0{i + 1}</span><h3 class="display mt-12 text-3xl">{heading}</h3><p class="mt-4 text-lg leading-relaxed text-white/80">{text}</p></article>)}</div></div>
-      </section>
+      <section id="kako" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display mb-10 text-5xl md:text-6xl">Како работиме</h2><div class="grid gap-5 md:grid-cols-3">{steps.map(([heading, text], i) => <article class="frosted glass-shadow min-h-56 rounded-2xl border border-white/35 p-8 text-ink"><span class="text-sm font-black uppercase tracking-wider text-signal">Чекор 0{i + 1}</span><h3 class="mt-5 text-2xl font-black">{heading}</h3><p class="mt-3 text-lg leading-relaxed text-ink/70">{text}</p></article>)}</div></section>
 
-      <section id="video" class="bg-ink py-20 text-paper lg:py-28">
-        <div class="frame"><div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p class="text-sm font-black uppercase tracking-[.2em] text-acid">LiftGoMK на Instagram</p><h2 class="display mt-3 text-6xl leading-none lg:text-8xl">ВИДИ НÈ<br/>НА ТЕРЕН.</h2></div><a href={instagram} target="_blank" rel="noopener noreferrer" class="w-fit border-2 border-paper px-6 py-4 font-black uppercase tracking-wide transition hover:border-acid hover:text-acid">Отвори Instagram</a></div>
-          <div class="mt-12 grid gap-5 md:grid-cols-3">
-            {reels.map((reel) => <div class="overflow-hidden border-2 border-paper/25 bg-white transition hover:border-acid"><iframe src={`https://www.instagram.com/reel/${reel.shortcode}/embed/captioned/`} title={reel.title} class="block aspect-[9/16] w-full border-0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>)}
-          </div>
-          <p class="mt-6 max-w-2xl text-sm leading-relaxed text-paper/50">На Instagram објавуваме снимки од реални ангажмани. Таму најбрзо можеш да ни испратиш адреса, кат и видео од пристапот за проценка.</p>
+      <section id="video" class="frosted scroll-mt-8 border-y border-white/35 py-16 text-ink md:py-24">
+        <div class="shell"><div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p class="text-sm font-black uppercase tracking-[.18em] text-signal">LiftGoMK на Instagram</p><h2 class="display mt-2 text-5xl md:text-6xl">Види нè на терен</h2></div><a href={instagram} target="_blank" rel="noopener noreferrer" class="w-fit rounded-xl border border-ink/20 bg-cream/45 px-6 py-3 font-black transition hover:bg-cream/75">Отвори Instagram</a></div>
+          <div class="mt-10 grid gap-5 md:grid-cols-3">{reels.map((reel) => <div class="reel-frame glass-shadow overflow-hidden rounded-2xl border border-ink/10 bg-white"><iframe src={`https://www.instagram.com/reel/${reel.shortcode}/embed/captioned/`} title={reel.title} class="block aspect-[9/16] w-full border-0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>)}</div>
         </div>
       </section>
 
-      <section class="border-b-2 border-ink bg-acid py-20 text-ink"><div class="frame flex flex-col justify-between gap-10 lg:flex-row lg:items-end"><div><p class="text-sm font-black uppercase tracking-[.2em]">Имаш тежок товар?</p><h2 class="display mt-3 text-[clamp(4rem,11vw,8rem)] leading-[.82]">АЈДЕ ДА ГО<br/>КРЕНЕМЕ.</h2></div><div class="flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="bg-ink px-8 py-5 text-center text-lg font-black uppercase tracking-wide text-white transition hover:bg-orange">Јави се · {phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="border-2 border-ink px-8 py-5 text-center text-lg font-black uppercase tracking-wide transition hover:bg-paper">Пиши на Instagram</a></div></div></section>
+      <section id="kontakt" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display max-w-4xl text-5xl leading-none md:text-7xl">Ајде да го <span class="text-signal">кренеме.</span></h2><p class="mt-6 max-w-2xl text-xl leading-relaxed text-cream/70">Прати адреса, кат и видео од пристапот на Instagram за проценка. Или јави се и кажи ни што треба да кренеме.</p><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="rounded-xl bg-signal px-7 py-4 text-center text-lg font-black text-white transition hover:brightness-110">Повикај {phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black backdrop-blur transition hover:bg-white/10">Пиши на Instagram</a></div></section>
     </main>
-    <footer class="bg-paper py-8"><div class="frame flex flex-col gap-4 text-sm font-bold uppercase tracking-wide sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} LiftGoMK</p><p>Вертикален транспорт · Скопје</p><div class="flex gap-6"><a href={phoneHref} class="underline decoration-2 underline-offset-4 hover:text-orange">{phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="underline decoration-2 underline-offset-4 hover:text-orange">Instagram</a></div></div></footer>
+
+    <footer class="shell flex flex-col gap-5 border-t border-white/10 py-8 text-base font-bold text-cream/55 md:flex-row md:items-center md:justify-between"><a href="#top" class="display text-xl text-cream">LIFTGO<span class="text-signal">MK</span></a><span>Скопје · надворешно кревање</span><div class="flex gap-6"><a class="hover:text-cream" href={phoneHref}>{phoneDisplay}</a><a class="hover:text-cream" href={instagram} target="_blank" rel="noopener noreferrer">Instagram</a></div></footer>
   </body>
 </html>
