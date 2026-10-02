@@ -11,6 +11,8 @@ const reels = [
 ];
 const title = 'LiftGoMK — Лифт за мебел и преселби во Скопје';
 const description = 'Брзо и безбедно кревање мебел, бела техника и градежен материјал до вашиот кат. LiftGoMK — практично решение за тешки товари во Скопје.';
+const basePath = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const canonicalUrl = new URL(basePath, Astro.site);
 const services = [
   { n: '01', title: 'Мебел и бела техника', text: 'Софи, плакари, кујни и апарати се креваат директно до балкон или прозорец.' },
   { n: '02', title: 'Преселби без тесни скали', text: 'Помалку носење низ влезот, помал ризик од оштетување и побрзо завршена работа.' },
@@ -32,19 +34,19 @@ const steps = [
     <meta name="description" content={description} />
     <meta name="theme-color" content="#11110f" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-    <link rel="canonical" href={new URL('/', Astro.site)} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="mk_MK" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={new URL('/', Astro.site)} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={new URL(`${basePath}favicon.svg`, Astro.site)} type="image/svg+xml" />
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'LiftGoMK',
-      description, url: new URL('/', Astro.site), telephone: '+38971486824', areaServed: { '@type': 'City', name: 'Skopje' },
+      description, url: canonicalUrl, telephone: '+38971486824', areaServed: { '@type': 'City', name: 'Skopje' },
       sameAs: [instagram], serviceType: ['Лифт за мебел', 'Вертикален транспорт', 'Помош при преселба']
     })} />
   </head>
