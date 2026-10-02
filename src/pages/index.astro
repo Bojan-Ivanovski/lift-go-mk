@@ -4,6 +4,11 @@ import '../styles/global.css';
 const instagram = 'https://www.instagram.com/liftgo_mk________preselbi/';
 const phoneDisplay = '071 486 824';
 const phoneHref = 'tel:+38971486824';
+const reels = [
+  { shortcode: 'Dd6RIMEMQL7', title: 'LiftGoMK — работа на терен 1' },
+  { shortcode: 'Dd13KthMkJ3', title: 'LiftGoMK — работа на терен 2' },
+  { shortcode: 'DdtYbvBMIxM', title: 'LiftGoMK — работа на терен 3' },
+];
 const title = 'LiftGoMK — Лифт за мебел и преселби во Скопје';
 const description = 'Брзо и безбедно кревање мебел, бела техника и градежен материјал до вашиот кат. LiftGoMK — практично решение за тешки товари во Скопје.';
 const services = [
@@ -100,7 +105,7 @@ const steps = [
       <section id="video" class="bg-ink py-20 text-paper lg:py-28">
         <div class="frame"><div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p class="text-sm font-black uppercase tracking-[.2em] text-acid">LiftGoMK на Instagram</p><h2 class="display mt-3 text-6xl leading-none lg:text-8xl">ВИДИ НÈ<br/>НА ТЕРЕН.</h2></div><a href={instagram} target="_blank" rel="noopener noreferrer" class="w-fit border-2 border-paper px-6 py-4 font-black uppercase tracking-wide transition hover:border-acid hover:text-acid">Отвори Instagram</a></div>
           <div class="mt-12 grid gap-5 md:grid-cols-3">
-            {[['Реални услови','Поставување'],['Директно нагоре','Кревање'],['Од улица до кат','Испорака']].map(([title, label], i) => <a href={instagram} target="_blank" rel="noopener noreferrer" class="group relative aspect-[4/5] overflow-hidden border-2 border-paper/25 bg-[#1b1b18] p-6 transition hover:border-acid" aria-label={`${title} — погледни на Instagram`}><div class="absolute inset-0 opacity-30" style={`background:repeating-linear-gradient(${105 + i*20}deg,transparent 0 24px,#d8ff3e 25px 27px)`}></div><span class="relative text-xs font-black uppercase tracking-[.2em] text-acid">{label}</span><div class="relative flex h-full flex-col justify-end"><span class="mb-5 grid h-14 w-14 place-items-center rounded-full bg-acid text-2xl text-ink transition group-hover:scale-110">▶</span><h3 class="display text-4xl">{title}</h3><p class="mt-2 text-paper/60">Погледни го видеото на профилот</p></div></a>)}
+            {reels.map((reel) => <div class="overflow-hidden border-2 border-paper/25 bg-white transition hover:border-acid"><iframe src={`https://www.instagram.com/reel/${reel.shortcode}/embed/captioned/`} title={reel.title} class="block aspect-[9/16] w-full border-0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>)}
           </div>
           <p class="mt-6 max-w-2xl text-sm leading-relaxed text-paper/50">На Instagram објавуваме снимки од реални ангажмани. Таму најбрзо можеш да ни испратиш адреса, кат и видео од пристапот за проценка.</p>
         </div>
