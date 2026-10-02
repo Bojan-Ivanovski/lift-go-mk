@@ -1,28 +1,15 @@
 ---
 import '../styles/global.css';
+import content from '../content/site.json';
 
-const instagram = 'https://www.instagram.com/liftgo_mk________preselbi/';
-const phoneDisplay = '071 486 824';
-const phoneHref = 'tel:+38971486824';
-const reels = [
-  { shortcode: 'Dd6RIMEMQL7', title: 'LiftGoMK — работа на терен 1' },
-  { shortcode: 'Dd13KthMkJ3', title: 'LiftGoMK — работа на терен 2' },
-  { shortcode: 'DdtYbvBMIxM', title: 'LiftGoMK — работа на терен 3' },
-];
-const title = 'LiftGoMK — Лифт за мебел и преселби во Скопје';
-const description = 'Брзо и безбедно кревање мебел, бела техника и градежен материјал до вашиот кат. LiftGoMK — практично решение за тешки товари во Скопје.';
+const { business, seo, hero, services, steps, reels, contact } = content;
+const instagram = business.instagram;
+const phoneDisplay = business.phoneDisplay;
+const phoneHref = `tel:${business.phoneInternational.replace(/\s/g, '')}`;
+const { title, description } = seo;
 const basePath = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const canonicalUrl = new URL(basePath, Astro.site);
-const services = [
-  { n: '01', title: 'Мебел и бела техника', text: 'Софи, плакари, кујни и апарати се креваат директно до балкон или прозорец.' },
-  { n: '02', title: 'Преселби без тесни скали', text: 'Помалку носење низ влезот, помал ризик од оштетување и побрзо завршена работа.' },
-  { n: '03', title: 'Материјал за реновирање', text: 'Практично вертикално кревање кога секој кат и секоја минута се важни.' },
-];
-const steps = [
-  ['Испрати локација', 'Прати адреса, кат и кратко видео од пристапот преку Instagram.'],
-  ['Договори термин', 'Ќе ја процениме поставеноста и ќе потврдиме што е потребно.'],
-  ['Креваме', 'Екипата го поставува лифтот и товарот оди директно до потребната висина.'],
-];
+const assetUrl = (path: string) => /^(?:https?:)?\//.test(path) ? path : `${basePath}${path.replace(/^\.\//, '')}`;
 ---
 <!doctype html>
 <html lang="mk">
@@ -46,7 +33,7 @@ const steps = [
     <link rel="icon" href={new URL(`${basePath}favicon.svg`, Astro.site)} type="image/svg+xml" />
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'LiftGoMK',
-      description, url: canonicalUrl, telephone: '+38971486824', areaServed: { '@type': 'City', name: 'Skopje' },
+      description, url: canonicalUrl, telephone: business.phoneInternational, areaServed: { '@type': 'City', name: business.location },
       sameAs: [instagram], serviceType: ['Лифт за мебел', 'Вертикален транспорт', 'Помош при преселба']
     })} />
   </head>
@@ -67,27 +54,27 @@ const steps = [
     <main id="main">
       <section id="top" class="shell grid items-center gap-10 pb-16 pt-5 lg:grid-cols-2 lg:gap-16 lg:pb-24 lg:pt-12">
         <div>
-          <p class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-black uppercase tracking-wider text-mint backdrop-blur"><span class="h-2 w-2 rounded-full bg-signal"></span> Скопје · надворешно кревање</p>
-          <h1 class="display text-[clamp(4.2rem,9vw,8.2rem)] leading-[.84] text-cream">ГОРЕ.<br/><span class="text-signal">БЕЗ МАКА.</span></h1>
-          <p class="mt-7 max-w-xl text-xl leading-relaxed text-cream/70">Кога мебелот не собира во лифт или скалите се тесни — го креваме однадвор, директно до кат.</p>
+          <p class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-black uppercase tracking-wider text-mint backdrop-blur"><span class="h-2 w-2 rounded-full bg-signal"></span> {hero.eyebrow}</p>
+          <h1 class="display text-[clamp(4.2rem,9vw,8.2rem)] leading-[.84] text-cream">{hero.title}<br/><span class="text-signal">{hero.accentTitle}</span></h1>
+          <p class="mt-7 max-w-xl text-xl leading-relaxed text-cream/70">{hero.description}</p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={phoneHref} class="rounded-xl border border-white/40 bg-frost px-7 py-4 text-center text-lg font-black text-ink shadow-xl transition hover:bg-cream">Повикај {phoneDisplay}</a>
             <a href={instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black text-cream backdrop-blur transition hover:bg-white/10">Instagram DM</a>
           </div>
         </div>
         <div class="glass-shadow relative mx-2 rounded-2xl border border-white/35 bg-frost p-2 sm:mx-4 lg:mx-0">
-          <img src={`${basePath}lift-hero.jpg`} alt="Надворешен лифт крева софа до балкон во Скопје" width="1024" height="1280" class="h-72 w-full rounded-xl object-cover object-[center_40%] sm:h-[30rem] lg:h-[34rem]" fetchpriority="high" />
-          <div class="absolute -bottom-5 -left-3 rounded-xl border border-white/25 bg-ink/90 px-6 py-4 backdrop-blur sm:-left-5"><div class="display text-4xl text-signal">0</div><div class="text-sm font-black uppercase tracking-wider text-cream/65">Скали користени</div></div>
+          <img src={assetUrl(hero.image)} alt={hero.imageAlt} width="1024" height="1280" class="h-72 w-full rounded-xl object-cover object-[center_40%] sm:h-[30rem] lg:h-[34rem]" fetchpriority="high" />
+          <div class="absolute -bottom-5 -left-3 rounded-xl border border-white/25 bg-ink/90 px-6 py-4 backdrop-blur sm:-left-5"><div class="display text-4xl text-signal">{hero.badgeNumber}</div><div class="text-sm font-black uppercase tracking-wider text-cream/65">{hero.badgeLabel}</div></div>
         </div>
       </section>
 
       <section id="uslugi" class="frosted scroll-mt-8 border-y border-white/35 py-16 text-ink md:py-24">
         <div class="shell"><div class="mb-10 flex items-end justify-between gap-5"><h2 class="display text-5xl md:text-6xl">Што креваме</h2><p class="hidden text-base font-bold text-ink/55 md:block">до балкон · до прозорец · без скали</p></div>
-          <div class="grid gap-5 md:grid-cols-3">{services.map((service) => <article class="min-h-60 rounded-2xl border border-ink/10 bg-cream/60 p-7 backdrop-blur"><div class="display text-5xl text-signal">{service.n}</div><h3 class="mt-5 text-2xl font-black">{service.title}</h3><p class="mt-3 text-lg leading-relaxed text-ink/65">{service.text}</p></article>)}</div>
+          <div class="grid gap-5 md:grid-cols-3">{services.map((service, i) => <article class="min-h-60 rounded-2xl border border-ink/10 bg-cream/60 p-7 backdrop-blur"><div class="display text-5xl text-signal">{String(i + 1).padStart(2, '0')}</div><h3 class="mt-5 text-2xl font-black">{service.title}</h3><p class="mt-3 text-lg leading-relaxed text-ink/65">{service.text}</p></article>)}</div>
         </div>
       </section>
 
-      <section id="kako" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display mb-10 text-5xl md:text-6xl">Како работиме</h2><div class="grid gap-5 md:grid-cols-3">{steps.map(([heading, text], i) => <article class="frosted glass-shadow min-h-56 rounded-2xl border border-white/35 p-8 text-ink"><span class="text-sm font-black uppercase tracking-wider text-signal">Чекор 0{i + 1}</span><h3 class="mt-5 text-2xl font-black">{heading}</h3><p class="mt-3 text-lg leading-relaxed text-ink/70">{text}</p></article>)}</div></section>
+      <section id="kako" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display mb-10 text-5xl md:text-6xl">Како работиме</h2><div class="grid gap-5 md:grid-cols-3">{steps.map((step, i) => <article class="frosted glass-shadow min-h-56 rounded-2xl border border-white/35 p-8 text-ink"><span class="text-sm font-black uppercase tracking-wider text-signal">Чекор {String(i + 1).padStart(2, '0')}</span><h3 class="mt-5 text-2xl font-black">{step.title}</h3><p class="mt-3 text-lg leading-relaxed text-ink/70">{step.text}</p></article>)}</div></section>
 
       <section id="video" class="frosted scroll-mt-8 border-y border-white/35 py-16 text-ink md:py-24">
         <div class="shell"><div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p class="text-sm font-black uppercase tracking-[.18em] text-signal">LiftGoMK на Instagram</p><h2 class="display mt-2 text-5xl md:text-6xl">Види нè на терен</h2></div><a href={instagram} target="_blank" rel="noopener noreferrer" class="w-fit rounded-xl border border-ink/20 bg-cream/45 px-6 py-3 font-black transition hover:bg-cream/75">Отвори Instagram</a></div>
@@ -95,9 +82,9 @@ const steps = [
         </div>
       </section>
 
-      <section id="kontakt" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display max-w-4xl text-5xl leading-none md:text-7xl">Ајде да го <span class="text-signal">кренеме.</span></h2><p class="mt-6 max-w-2xl text-xl leading-relaxed text-cream/70">Прати адреса, кат и видео од пристапот на Instagram за проценка. Или јави се и кажи ни што треба да кренеме.</p><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="rounded-xl bg-signal px-7 py-4 text-center text-lg font-black text-white transition hover:brightness-110">Повикај {phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black backdrop-blur transition hover:bg-white/10">Пиши на Instagram</a></div></section>
+      <section id="kontakt" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display max-w-4xl text-5xl leading-none md:text-7xl">{contact.title} <span class="text-signal">{contact.accentTitle}</span></h2><p class="mt-6 max-w-2xl text-xl leading-relaxed text-cream/70">{contact.description}</p><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="rounded-xl bg-signal px-7 py-4 text-center text-lg font-black text-white transition hover:brightness-110">Повикај {phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black backdrop-blur transition hover:bg-white/10">Пиши на Instagram</a></div></section>
     </main>
 
-    <footer class="shell flex flex-col gap-5 border-t border-white/10 py-8 text-base font-bold text-cream/55 md:flex-row md:items-center md:justify-between"><a href="#top" class="display text-xl text-cream">LIFTGO<span class="text-signal">MK</span></a><span>Скопје · надворешно кревање</span><div class="flex gap-6"><a class="hover:text-cream" href={phoneHref}>{phoneDisplay}</a><a class="hover:text-cream" href={instagram} target="_blank" rel="noopener noreferrer">Instagram</a></div></footer>
+    <footer class="shell flex flex-col gap-5 border-t border-white/10 py-8 text-base font-bold text-cream/55 md:flex-row md:items-center md:justify-between"><a href="#top" class="display text-xl text-cream">LIFTGO<span class="text-signal">MK</span></a><span>{business.location} · надворешно кревање</span><div class="flex gap-6"><a class="hover:text-cream" href={phoneHref}>{phoneDisplay}</a><a class="hover:text-cream" href={instagram} target="_blank" rel="noopener noreferrer">Instagram</a></div></footer>
   </body>
 </html>

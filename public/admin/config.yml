@@ -1,0 +1,81 @@
+backend:
+  name: github
+  repo: Bojan-Ivanovski/lift-go-mk
+  branch: main
+  use_graphql: true
+
+site_url: https://bojan-ivanovski.github.io/lift-go-mk/
+display_url: https://bojan-ivanovski.github.io/lift-go-mk/
+logo_url: https://bojan-ivanovski.github.io/lift-go-mk/favicon.svg
+locale: mk
+publish_mode: simple
+media_folder: public/uploads
+public_folder: /lift-go-mk/uploads
+
+collections:
+  - name: website
+    label: Веб-страница
+    files:
+      - name: home
+        label: Почетна страница
+        file: src/content/site.json
+        format: json
+        fields:
+          - label: Бизнис
+            name: business
+            widget: object
+            fields:
+              - { label: Име, name: name, widget: string }
+              - { label: Телефон за приказ, name: phoneDisplay, widget: string }
+              - { label: Телефон меѓународен, name: phoneInternational, widget: string, hint: "Пример: +38971486824" }
+              - { label: Instagram URL, name: instagram, widget: string }
+              - { label: Локација, name: location, widget: string }
+          - label: SEO
+            name: seo
+            widget: object
+            fields:
+              - { label: Наслов, name: title, widget: string }
+              - { label: Опис, name: description, widget: text }
+          - label: Главен дел
+            name: hero
+            widget: object
+            fields:
+              - { label: Ознака, name: eyebrow, widget: string }
+              - { label: Наслов, name: title, widget: string }
+              - { label: Портокалов наслов, name: accentTitle, widget: string }
+              - { label: Опис, name: description, widget: text }
+              - { label: Фотографија, name: image, widget: image }
+              - { label: Опис на фотографија, name: imageAlt, widget: string }
+              - { label: Број во значка, name: badgeNumber, widget: string }
+              - { label: Текст во значка, name: badgeLabel, widget: string }
+          - label: Услуги
+            name: services
+            widget: list
+            min: 1
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Наслов, name: title, widget: string }
+              - { label: Опис, name: text, widget: text }
+          - label: Како работиме
+            name: steps
+            widget: list
+            min: 1
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Наслов, name: title, widget: string }
+              - { label: Опис, name: text, widget: text }
+          - label: Instagram видеа
+            name: reels
+            widget: list
+            min: 1
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Reel shortcode, name: shortcode, widget: string, hint: "Само кодот од Instagram URL, на пример Dd6RIMEMQL7" }
+              - { label: Опис, name: title, widget: string }
+          - label: Контакт секција
+            name: contact
+            widget: object
+            fields:
+              - { label: Наслов, name: title, widget: string }
+              - { label: Портокалов наслов, name: accentTitle, widget: string }
+              - { label: Опис, name: description, widget: text }
