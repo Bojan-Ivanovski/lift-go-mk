@@ -1,7 +1,9 @@
 ---
 import '../styles/global.css';
 
-const instagram = 'https://www.instagram.com/liftgomk/';
+const instagram = 'https://www.instagram.com/liftgo_mk________preselbi/';
+const phoneDisplay = '071 486 824';
+const phoneHref = 'tel:+38971486824';
 const title = 'LiftGoMK — Лифт за мебел и преселби во Скопје';
 const description = 'Брзо и безбедно кревање мебел, бела техника и градежен материјал до вашиот кат. LiftGoMK — практично решение за тешки товари во Скопје.';
 const services = [
@@ -37,7 +39,7 @@ const steps = [
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'LiftGoMK',
-      description, url: new URL('/', Astro.site), areaServed: { '@type': 'City', name: 'Skopje' },
+      description, url: new URL('/', Astro.site), telephone: '+38971486824', areaServed: { '@type': 'City', name: 'Skopje' },
       sameAs: [instagram], serviceType: ['Лифт за мебел', 'Вертикален транспорт', 'Помош при преселба']
     })} />
   </head>
@@ -50,7 +52,7 @@ const steps = [
         <nav class="hidden items-center gap-8 text-sm font-bold uppercase tracking-wider md:flex" aria-label="Главна навигација">
           <a class="hover:underline" href="#uslugi">Услуги</a><a class="hover:underline" href="#kako">Како работи</a><a class="hover:underline" href="#video">На терен</a>
         </nav>
-        <a href={instagram} target="_blank" rel="noopener noreferrer" class="bg-ink px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-orange">Прати порака</a>
+        <a href={phoneHref} class="bg-ink px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-orange">Јави се · {phoneDisplay}</a>
       </div>
     </header>
 
@@ -65,7 +67,7 @@ const steps = [
             </div>
             <div class="mt-10 flex flex-col gap-3 sm:flex-row">
               <a href={instagram} target="_blank" rel="noopener noreferrer" class="bg-acid px-7 py-4 text-center font-black uppercase tracking-wide text-ink transition hover:bg-orange hover:text-white">Побарај проценка</a>
-              <a href="#kako" class="border-2 border-paper/40 px-7 py-4 text-center font-black uppercase tracking-wide transition hover:border-acid hover:text-acid">Како работиме</a>
+              <a href={phoneHref} class="border-2 border-paper/40 px-7 py-4 text-center font-black uppercase tracking-wide transition hover:border-acid hover:text-acid">{phoneDisplay}</a>
             </div>
           </div>
           <div class="relative hidden overflow-hidden lg:block" aria-hidden="true">
@@ -104,8 +106,8 @@ const steps = [
         </div>
       </section>
 
-      <section class="border-b-2 border-ink bg-acid py-20 text-ink"><div class="frame flex flex-col justify-between gap-10 lg:flex-row lg:items-end"><div><p class="text-sm font-black uppercase tracking-[.2em]">Имаш тежок товар?</p><h2 class="display mt-3 text-[clamp(4rem,11vw,8rem)] leading-[.82]">АЈДЕ ДА ГО<br/>КРЕНЕМЕ.</h2></div><a href={instagram} target="_blank" rel="noopener noreferrer" class="bg-ink px-8 py-5 text-center text-lg font-black uppercase tracking-wide text-white transition hover:bg-orange">Пиши ни на Instagram</a></div></section>
+      <section class="border-b-2 border-ink bg-acid py-20 text-ink"><div class="frame flex flex-col justify-between gap-10 lg:flex-row lg:items-end"><div><p class="text-sm font-black uppercase tracking-[.2em]">Имаш тежок товар?</p><h2 class="display mt-3 text-[clamp(4rem,11vw,8rem)] leading-[.82]">АЈДЕ ДА ГО<br/>КРЕНЕМЕ.</h2></div><div class="flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="bg-ink px-8 py-5 text-center text-lg font-black uppercase tracking-wide text-white transition hover:bg-orange">Јави се · {phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="border-2 border-ink px-8 py-5 text-center text-lg font-black uppercase tracking-wide transition hover:bg-paper">Пиши на Instagram</a></div></div></section>
     </main>
-    <footer class="bg-paper py-8"><div class="frame flex flex-col gap-4 text-sm font-bold uppercase tracking-wide sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} LiftGoMK</p><p>Вертикален транспорт · Скопје</p><a href={instagram} target="_blank" rel="noopener noreferrer" class="underline decoration-2 underline-offset-4 hover:text-orange">Instagram</a></div></footer>
+    <footer class="bg-paper py-8"><div class="frame flex flex-col gap-4 text-sm font-bold uppercase tracking-wide sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} LiftGoMK</p><p>Вертикален транспорт · Скопје</p><div class="flex gap-6"><a href={phoneHref} class="underline decoration-2 underline-offset-4 hover:text-orange">{phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="underline decoration-2 underline-offset-4 hover:text-orange">Instagram</a></div></div></footer>
   </body>
 </html>
