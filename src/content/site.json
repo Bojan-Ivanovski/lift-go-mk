@@ -48,31 +48,17 @@
       "text": "Екипата го поставува лифтот и товарот оди директно до потребната висина."
     }
   ],
-  "reels": [
-    {
-      "shortcode": "Dd6RIMEMQL7",
-      "title": "LiftGoMK — работа на терен 1"
-    },
-    {
-      "shortcode": "Dd13KthMkJ3",
-      "title": "LiftGoMK — работа на терен 2"
-    },
-    {
-      "shortcode": "DdtYbvBMIxM",
-      "title": "LiftGoMK — работа на терен 3"
-    },
-    {
-      "shortcode": "DdtYbvBMIxM",
-      "title": "LiftGoMK — работа на терен 3"
-    },
-    {
-      "shortcode": "DdtYbvBMIxM",
-      "title": "LiftGoMK — работа на терен 3"
-    }
-  ],
+  "videoSection": {
+    "eyebrow": "LiftGoMK на терен",
+    "title": "Види како работиме",
+    "description": "Реални снимки од кревање мебел и материјали директно до потребниот кат."
+  },
+  "videos": [],
   "contact": {
     "title": "Ајде да го",
     "accentTitle": "кренеме.",
-    "description": "Прати адреса, кат и видео од пристапот на Instagram за проценка. Или јави се и кажи ни што треба да кренеме."
+    "description": "Прати адреса, кат и видео од пристапот на Instagram за проценка. Или јави се и кажи ни што треба да кренеме.",
+    "pageTitle": "Контактирај нè",
+    "pageDescription": "Кажи ни што треба да се крене, на кој кат и каде се наоѓа објектот. Ќе ти одговориме со проценка и слободен термин."
   }
 }

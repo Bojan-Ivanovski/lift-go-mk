@@ -64,14 +64,23 @@ collections:
             fields:
               - { label: Наслов, name: title, widget: string }
               - { label: Опис, name: text, widget: text }
-          - label: Instagram видеа
-            name: reels
+          - label: Видео секција
+            name: videoSection
+            widget: object
+            fields:
+              - { label: Ознака, name: eyebrow, widget: string }
+              - { label: Наслов, name: title, widget: string }
+              - { label: Опис, name: description, widget: text }
+          - label: Видеа
+            name: videos
             widget: list
-            min: 1
+            required: false
             summary: "{{fields.title}}"
             fields:
-              - { label: Reel shortcode, name: shortcode, widget: string, hint: "Само кодот од Instagram URL, на пример Dd6RIMEMQL7" }
-              - { label: Опис, name: title, widget: string }
+              - { label: Наслов, name: title, widget: string }
+              - { label: Видео, name: video, widget: file, hint: "Постави MP4 или WebM видео." }
+              - { label: Thumbnail слика (опционално), name: thumbnail, widget: image, required: false }
+              - { label: Краток опис, name: description, widget: text, required: false }
           - label: Контакт секција
             name: contact
             widget: object
@@ -79,3 +88,5 @@ collections:
               - { label: Наслов, name: title, widget: string }
               - { label: Портокалов наслов, name: accentTitle, widget: string }
               - { label: Опис, name: description, widget: text }
+              - { label: Наслов на контакт страница, name: pageTitle, widget: string }
+              - { label: Опис на контакт страница, name: pageDescription, widget: text }

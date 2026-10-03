@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import content from '../content/site.json';
+
+const { business, contact } = content;
+const basePath = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const homeUrl = basePath;
+const canonicalUrl = new URL(`${basePath}contact/`, Astro.site);
+const phoneHref = `tel:${business.phoneInternational.replace(/\s/g, '')}`;
+const title = `${contact.pageTitle} — LiftGoMK`;
+const description = contact.pageDescription;
+---
+<!doctype html>
+<html lang="mk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#363735" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="mk_MK" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <link rel="icon" href={new URL(`${basePath}favicon.svg`, Astro.site)} type="image/svg+xml" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-cream focus:px-4 focus:py-3 focus:text-ink">Прескокни до содржината</a>
+    <header class="shell flex items-center justify-between gap-4 py-5 sm:py-6"><a href={homeUrl} class="display text-2xl text-cream" aria-label="LiftGoMK почетна">LIFTGO<span class="text-signal">MK</span></a><a href={homeUrl} class="rounded-full border border-white/25 bg-white/5 px-5 py-2.5 text-sm font-black text-cream transition hover:bg-white/10">Назад кон почетна</a></header>
+    <main id="main">
+      <section class="shell grid gap-10 pb-16 pt-10 lg:grid-cols-[1.15fr_.85fr] lg:items-start lg:gap-16 lg:pb-24 lg:pt-20">
+        <div><p class="text-sm font-black uppercase tracking-[.18em] text-mint">{business.location} · LiftGoMK</p><h1 class="display mt-5 text-[clamp(4rem,9vw,8rem)] leading-[.86] text-cream">{contact.pageTitle}</h1><p class="mt-7 max-w-2xl text-xl leading-relaxed text-cream/70">{contact.pageDescription}</p><div class="mt-9 flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="rounded-xl bg-signal px-7 py-4 text-center text-lg font-black text-white transition hover:brightness-110">Повикај {business.phoneDisplay}</a><a href={business.instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black text-cream transition hover:bg-white/10">Пиши на Instagram</a></div></div>
+        <aside class="frosted glass-shadow rounded-2xl border border-white/35 p-7 text-ink sm:p-9"><p class="text-sm font-black uppercase tracking-[.18em] text-signal">За побрза проценка</p><h2 class="mt-4 text-3xl font-black">Испрати ни ги овие информации</h2><ol class="mt-7 space-y-5">{['Точна локација или населба', 'Кат и пристап до објектот', 'Што и колку треба да се крене', 'Кратко видео или фотографии од пристапот'].map((item, i) => <li class="flex gap-4"><span class="display grid h-10 w-10 shrink-0 place-items-center rounded-full bg-signal text-lg text-white">{i + 1}</span><span class="pt-2 text-lg font-bold">{item}</span></li>)}</ol></aside>
+      </section>
+      <section class="frosted border-y border-white/35 py-16 text-ink"><div class="shell grid gap-5 md:grid-cols-2"><a href={phoneHref} class="rounded-2xl border border-ink/10 bg-cream/55 p-7 transition hover:bg-cream/80"><span class="text-sm font-black uppercase tracking-wider text-signal">Телефон</span><strong class="mt-3 block text-3xl">{business.phoneDisplay}</strong><span class="mt-2 block text-ink/60">Јави се за термин и брза проценка.</span></a><a href={business.instagram} target="_blank" rel="noopener noreferrer" class="rounded-2xl border border-ink/10 bg-cream/55 p-7 transition hover:bg-cream/80"><span class="text-sm font-black uppercase tracking-wider text-signal">Instagram</span><strong class="mt-3 block text-3xl">Испрати порака</strong><span class="mt-2 block text-ink/60">Прикачи фотографии или видео од пристапот.</span></a></div></section>
+    </main>
+    <footer class="shell flex flex-col gap-5 border-t border-white/10 py-8 text-base font-bold text-cream/55 md:flex-row md:items-center md:justify-between"><a href={homeUrl} class="display text-xl text-cream">LIFTGO<span class="text-signal">MK</span></a><span>{business.location} · надворешно кревање</span><a class="hover:text-cream" href={phoneHref}>{business.phoneDisplay}</a></footer>
+  </body>
+</html>

@@ -2,7 +2,9 @@
 import '../styles/global.css';
 import content from '../content/site.json';
 
-const { business, seo, hero, services, steps, reels, contact } = content;
+type VideoItem = { title: string; video: string; thumbnail?: string; description?: string };
+const { business, seo, hero, services, steps, videoSection, contact } = content;
+const videos = content.videos as VideoItem[];
 const instagram = business.instagram;
 const phoneDisplay = business.phoneDisplay;
 const phoneHref = `tel:${business.phoneInternational.replace(/\s/g, '')}`;
@@ -10,6 +12,7 @@ const { title, description } = seo;
 const basePath = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const canonicalUrl = new URL(basePath, Astro.site);
 const assetUrl = (path: string) => /^(?:https?:)?\//.test(path) ? path : `${basePath}${path.replace(/^\.\//, '')}`;
+const contactUrl = `${basePath}contact/`;
 ---
 <!doctype html>
 <html lang="mk">
@@ -41,12 +44,12 @@ const assetUrl = (path: string) => /^(?:https?:)?\//.test(path) ? path : `${base
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-cream focus:px-4 focus:py-3 focus:text-ink">Прескокни до содржината</a>
 
     <header class="shell relative z-10 flex items-center justify-between gap-4 py-5 sm:py-6">
-      <a href="#top" class="display text-2xl text-cream" aria-label="LiftGoMK почетна">LIFTGO<span class="text-signal">MK</span></a>
+      <a href={basePath} class="display text-2xl text-cream" aria-label="LiftGoMK почетна">LIFTGO<span class="text-signal">MK</span></a>
       <nav class="hidden items-center gap-8 text-base font-bold text-cream/70 md:flex" aria-label="Главна навигација">
         <a class="transition hover:text-cream" href="#uslugi">Услуги</a>
         <a class="transition hover:text-cream" href="#kako">Како работиме</a>
         <a class="transition hover:text-cream" href="#video">На терен</a>
-        <a class="transition hover:text-cream" href="#kontakt">Контакт</a>
+        <a class="transition hover:text-cream" href={contactUrl}>Контакт</a>
       </nav>
       <a href={phoneHref} class="rounded-full border border-white/35 bg-frost px-5 py-2.5 text-sm font-black text-ink shadow-lg transition hover:bg-cream">{phoneDisplay}</a>
     </header>
@@ -77,14 +80,27 @@ const assetUrl = (path: string) => /^(?:https?:)?\//.test(path) ? path : `${base
       <section id="kako" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display mb-10 text-5xl md:text-6xl">Како работиме</h2><div class="grid gap-5 md:grid-cols-3">{steps.map((step, i) => <article class="frosted glass-shadow min-h-56 rounded-2xl border border-white/35 p-8 text-ink"><span class="text-sm font-black uppercase tracking-wider text-signal">Чекор {String(i + 1).padStart(2, '0')}</span><h3 class="mt-5 text-2xl font-black">{step.title}</h3><p class="mt-3 text-lg leading-relaxed text-ink/70">{step.text}</p></article>)}</div></section>
 
       <section id="video" class="frosted scroll-mt-8 border-y border-white/35 py-16 text-ink md:py-24">
-        <div class="shell"><div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p class="text-sm font-black uppercase tracking-[.18em] text-signal">LiftGoMK на Instagram</p><h2 class="display mt-2 text-5xl md:text-6xl">Види нè на терен</h2></div><a href={instagram} target="_blank" rel="noopener noreferrer" class="w-fit rounded-xl border border-ink/20 bg-cream/45 px-6 py-3 font-black transition hover:bg-cream/75">Отвори Instagram</a></div>
-          <div class="mt-10 grid gap-5 md:grid-cols-3">{reels.map((reel) => <div class="reel-frame glass-shadow overflow-hidden rounded-2xl border border-ink/10 bg-white"><iframe src={`https://www.instagram.com/reel/${reel.shortcode}/embed/captioned/`} title={reel.title} class="block aspect-[9/16] w-full border-0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>)}</div>
+        <div class="shell"><div class="flex max-w-3xl flex-col gap-4"><p class="text-sm font-black uppercase tracking-[.18em] text-signal">{videoSection.eyebrow}</p><h2 class="display text-5xl md:text-6xl">{videoSection.title}</h2><p class="text-lg leading-relaxed text-ink/65">{videoSection.description}</p></div>
+          {videos.length > 0 ? <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{videos.map((item, i) => <article class="glass-shadow overflow-hidden rounded-2xl border border-ink/10 bg-cream/55"><button type="button" class="video-open group relative block aspect-video w-full overflow-hidden bg-ink text-left" data-video={assetUrl(item.video)} data-poster={item.thumbnail ? assetUrl(item.thumbnail) : ''} data-title={item.title} aria-label={`Пушти видео: ${item.title}`}>{item.thumbnail ? <img src={assetUrl(item.thumbnail)} alt="" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" /> : <video src={assetUrl(item.video)} muted preload="metadata" playsinline class="h-full w-full object-cover"></video>}<span class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></span><span class="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-white shadow-xl transition group-hover:scale-110" aria-hidden="true"><svg viewBox="0 0 24 24" class="ml-1 h-7 w-7" fill="currentColor"><path d="M8 5v14l11-7z" /></svg></span><span class="absolute bottom-4 left-4 text-sm font-black uppercase tracking-wider text-white">Видео {String(i + 1).padStart(2, '0')}</span></button><div class="p-6"><h3 class="text-2xl font-black">{item.title}</h3>{item.description && <p class="mt-2 leading-relaxed text-ink/65">{item.description}</p>}</div></article>)}</div> : <div class="mt-10 rounded-2xl border border-ink/10 bg-cream/45 p-8 text-lg font-bold text-ink/60">Наскоро нови видеа од терен.</div>}
         </div>
       </section>
+
+      <dialog id="video-viewer" class="video-dialog" aria-label="Видео прегледувач"><div class="video-dialog-card"><div class="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4"><h3 id="video-viewer-title" class="text-xl font-black text-cream"></h3><button id="video-close" type="button" class="grid h-11 w-11 place-items-center rounded-full bg-white/10 text-2xl text-cream transition hover:bg-white/20" aria-label="Затвори видео">×</button></div><video id="video-player" controls playsinline class="max-h-[78vh] w-full bg-black"></video></div></dialog>
 
       <section id="kontakt" class="shell scroll-mt-8 py-16 md:py-24"><h2 class="display max-w-4xl text-5xl leading-none md:text-7xl">{contact.title} <span class="text-signal">{contact.accentTitle}</span></h2><p class="mt-6 max-w-2xl text-xl leading-relaxed text-cream/70">{contact.description}</p><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href={phoneHref} class="rounded-xl bg-signal px-7 py-4 text-center text-lg font-black text-white transition hover:brightness-110">Повикај {phoneDisplay}</a><a href={instagram} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-white/25 bg-white/5 px-7 py-4 text-center text-lg font-black backdrop-blur transition hover:bg-white/10">Пиши на Instagram</a></div></section>
     </main>
 
-    <footer class="shell flex flex-col gap-5 border-t border-white/10 py-8 text-base font-bold text-cream/55 md:flex-row md:items-center md:justify-between"><a href="#top" class="display text-xl text-cream">LIFTGO<span class="text-signal">MK</span></a><span>{business.location} · надворешно кревање</span><div class="flex gap-6"><a class="hover:text-cream" href={phoneHref}>{phoneDisplay}</a><a class="hover:text-cream" href={instagram} target="_blank" rel="noopener noreferrer">Instagram</a></div></footer>
+    <footer class="shell flex flex-col gap-5 border-t border-white/10 py-8 text-base font-bold text-cream/55 md:flex-row md:items-center md:justify-between"><a href={basePath} class="display text-xl text-cream">LIFTGO<span class="text-signal">MK</span></a><span>{business.location} · надворешно кревање</span><div class="flex gap-6"><a class="hover:text-cream" href={contactUrl}>Контакт</a><a class="hover:text-cream" href={phoneHref}>{phoneDisplay}</a><a class="hover:text-cream" href={instagram} target="_blank" rel="noopener noreferrer">Instagram</a></div></footer>
+    <script>
+      const dialog = document.querySelector<HTMLDialogElement>('#video-viewer');
+      const player = document.querySelector<HTMLVideoElement>('#video-player');
+      const viewerTitle = document.querySelector<HTMLElement>('#video-viewer-title');
+      const closeButton = document.querySelector<HTMLButtonElement>('#video-close');
+      const closeViewer = () => { if (!dialog || !player) return; player.pause(); player.removeAttribute('src'); player.removeAttribute('poster'); player.load(); dialog.close(); document.body.classList.remove('viewer-open'); };
+      document.querySelectorAll<HTMLButtonElement>('.video-open').forEach((button) => button.addEventListener('click', () => { if (!dialog || !player || !viewerTitle) return; player.src = button.dataset.video ?? ''; if (button.dataset.poster) player.poster = button.dataset.poster; viewerTitle.textContent = button.dataset.title ?? ''; dialog.showModal(); document.body.classList.add('viewer-open'); player.play().catch(() => {}); }));
+      closeButton?.addEventListener('click', closeViewer);
+      dialog?.addEventListener('click', (event) => { if (event.target === dialog) closeViewer(); });
+      dialog?.addEventListener('cancel', (event) => { event.preventDefault(); closeViewer(); });
+    </script>
   </body>
 </html>
