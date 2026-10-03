@@ -53,7 +53,20 @@
     "title": "Види како работиме",
     "description": "Реални снимки од кревање мебел и материјали директно до потребниот кат."
   },
-  "videos": [],
+  "videos": [
+    {
+      "title": "Кревање градежни материјали",
+      "video": "uploads/videos/liftgo-gradezni-materijali.mp4",
+      "thumbnail": "uploads/thumbnails/liftgo-gradezni-materijali.jpg",
+      "description": "Практично кревање материјали директно до потребната висина."
+    },
+    {
+      "title": "Преселби на станови и деловни простори",
+      "video": "uploads/videos/liftgo-preselbi.mp4",
+      "thumbnail": "uploads/thumbnails/liftgo-preselbi.jpg",
+      "description": "Качување и спуштање мебел без непотребно носење по скали."
+    }
+  ],
   "contact": {
     "title": "Ајде да го",
     "accentTitle": "кренеме.",
