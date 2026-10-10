@@ -1,0 +1,118 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import content from '../content/site.json';
+import { faqs } from '../data/faqs';
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const serviceDetails = [
+  {
+    intro:
+      'Кога голем предмет не поминува низ влезот, скалите или лифтот, го креваме однадвор до балкон или прозорец, ако пристапот го дозволува тоа.',
+    examples: 'Софи, кревети, плакари, кујнски елементи, фрижидери и машини за перење.',
+    prepare: 'Испрати фотографија од предметот, балконот или прозорецот и просторот пред зградата.',
+  },
+  {
+    intro:
+      'При преселба, надворешниот лифт помага поголемите парчиња да стигнат до или од катот со помалку пренесување низ заедничките простории.',
+    examples: 'Мебел и бела техника што треба да се кренат или спуштат при преселување.',
+    prepare: 'Кажи ни ја адресата, катот и дали товарот оди нагоре, надолу или во двете насоки.',
+  },
+  {
+    intro:
+      'Материјалите за реновирање можат да се достават директно до потребниот кат со надворешниот лифт, зависно од товарот и пристапот до објектот.',
+    examples: 'Пакувани материјали и опрема за работа во стан или деловен простор.',
+    prepare: 'Опиши што се крева, приближна количина и до кој кат треба да стигне.',
+  },
+];
+---
+
+<SiteLayout active="uslugi">
+  <main id="main">
+    <section class="page-intro">
+      <span class="section-number">ШТО НУДИ LIFTGOMK</span>
+      <h1>
+        ТЕШКО ЗА
+        <br />
+        <em>СКАЛИТЕ?</em>
+      </h1>
+      <p>Користиме надворешен лифт за мебел, бела техника и материјали — до балкон или прозорец.</p>
+    </section>
+    <section class="service-detail-list section-pad">
+      {content.services.map((service, i) => (
+        <article class="service-detail reveal" id={`usluga-${i + 1}`}>
+          <span class="service-num">0{i + 1}</span>
+          <div>
+            <p class="step-kicker">УСЛУГА 0{i + 1}</p>
+            <h2>{['Мебел и бела техника', 'Преселби', 'Материјали за реновирање'][i]}</h2>
+            <p>{service.text}</p>
+            <details class="service-more">
+              <summary>
+                <span class="service-more-label">Повеќе информации</span>
+                <span class="service-less-label">Помалку информации</span>
+                <svg
+                  class="service-more-icon"
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  focusable="false"
+                >
+                  <path d="m5 7.5 5 5 5-5" />
+                </svg>
+              </summary>
+              <div class="service-more-content">
+                <p>{serviceDetails[i].intro}</p>
+                <div class="service-more-columns">
+                  <div>
+                    <h3>Примери</h3>
+                    <p>{serviceDetails[i].examples}</p>
+                  </div>
+                  <div>
+                    <h3>За побрза проценка</h3>
+                    <p>{serviceDetails[i].prepare}</p>
+                  </div>
+                </div>
+                <a class="underlined-link" href={`${base}kontakt/`}>
+                  Прашај за услугата <span>↗</span>
+                </a>
+              </div>
+            </details>
+          </div>
+        </article>
+      ))}
+      <div class="services-faq" id="faq">
+        <h2>ПРАШАЊА ПРЕД КРЕВАЊЕ.</h2>
+        {faqs.map(({ question, answer }) => (
+          <details class="faq-item">
+            <summary>
+              {question}
+              <span aria-hidden="true">
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m5 7.5 5 5 5-5" />
+                </svg>
+              </span>
+            </summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+    <section class="service-bottom">
+      <h2>
+        НЕ СИ СИГУРЕН
+        <br />
+        ШТО ТИ ТРЕБА?
+      </h2>
+      <a class="button button-orange" href={`${base}kontakt/`}>
+        Контактирај нè <span>↗</span>
+      </a>
+    </section>
+  </main>
+</SiteLayout>

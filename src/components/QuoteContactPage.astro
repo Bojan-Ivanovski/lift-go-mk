@@ -1,0 +1,287 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import content from '../content/site.json';
+const { active = 'cena' } = Astro.props;
+const phone = `tel:${content.business.phoneInternational}`;
+---
+
+<SiteLayout active={active}>
+  <main id="main">
+    <section class="page-intro">
+      <span class="section-number">ПОНУДА И КОНТАКТ · СКОПЈЕ</span>
+      <h1>
+        ДАЈ ДА
+        <br />
+        <em>СЕ ДОГОВОРИМЕ.</em>
+      </h1>
+      <p>
+        Опиши што треба да кренеме и остави контакт. Ќе ги добиеме сите детали во една порака за
+        понуда.
+      </p>
+    </section>
+
+    <section class="quote-page grid grid-cols-1 min-[960px]:grid-cols-[minmax(0,1.35fr)_minmax(0,.65fr)]">
+      <form id="quote-form" class="quote-form" aria-describedby="quote-status" novalidate>
+        <input type="checkbox" name="botcheck" hidden tabindex="-1" autocomplete="off" />
+        <fieldset class="quote-section">
+          <legend>
+            <span>01</span> Локација
+          </legend>
+          <p>Каде се наоѓа објектот и каков е пристапот?</p>
+          <div class="quote-fields">
+            <label>
+              Град или населба{' '}
+              <input
+                name="city"
+                required
+                placeholder="на пр. Скопје, Центар"
+                autocomplete="address-level2"
+                aria-describedby="city-error"
+              />
+              <span class="field-error" id="city-error" hidden></span>
+            </label>
+            <label>
+              Адреса <span class="optional">по избор</span>
+              <input name="address" placeholder="Улица и број" autocomplete="street-address" />
+            </label>
+            <label class="field-wide">
+              Пристап до зградата{' '}
+              <select name="access">
+                <option value="">Избери</option>
+                <option>Има простор пред зградата</option>
+                <option>Тесен пристап / улица</option>
+                <option>Не сум сигурен/на</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quote-section">
+          <legend>
+            <span>02</span> Кат
+          </legend>
+          <p>Избери го катот до кој треба да стигне товарот.</p>
+          <div
+            class="floor-picker"
+            role="group"
+            aria-label="Избери кат"
+            aria-describedby="floor-note floor-error"
+          >
+            <div class="building">
+              <div class="building-roof"></div>
+              <div class="floors">
+                {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((floor) => (
+                  <button
+                    type="button"
+                    class="floor-choice"
+                    data-floor={floor}
+                    aria-label={`Кат ${floor}`}
+                    aria-pressed="false"
+                  >
+                    {floor}
+                  </button>
+                ))}
+                <div class="floor-display" aria-label="Приземје — приказ">
+                  <span aria-hidden="true">П</span>
+                </div>
+              </div>
+            </div>
+            <div class="lift-illustration">
+              <div class="lift-rail"></div>
+              <div class="lift-platform" id="lift-platform">
+                ▰
+              </div>
+              <span>ЛИФТ</span>
+            </div>
+          </div>
+          <input type="hidden" name="floor" required />
+          <p class="selection-note" id="floor-note">
+            Избери кат од 1 до 10
+          </p>
+          <p class="field-error" id="floor-error" role="alert" hidden></p>
+        </fieldset>
+
+        <fieldset class="quote-section">
+          <legend>
+            <span>03</span> Товар
+          </legend>
+          <p>Избери една или повеќе категории и додај детали ако сакаш.</p>
+          <div class="choice-grid">
+            {['Мебел', 'Бела техника', 'Материјали', 'Друго'].map((item) => (
+              <label class="choice">
+                <input type="checkbox" name="items" value={item} />
+                <span>{item}</span>
+                <i>＋</i>
+              </label>
+            ))}
+          </div>
+          <label>
+            Порака / опис на товарот
+            <textarea
+              name="details"
+              rows="3"
+              required
+              maxlength="4000"
+              aria-describedby="details-error"
+              placeholder="На пр. гардеробер, фрижидер или неколку пакети плочки"
+            ></textarea>
+            <span class="field-error" id="details-error" hidden></span>
+          </label>
+        </fieldset>
+
+        <fieldset class="quote-section">
+          <legend>
+            <span>04</span> Термин и насока
+          </legend>
+          <p>Овие детали ни помагаат да ја подготвиме понудата.</p>
+          <div class="quote-fields">
+            <label>
+              Насока
+              <select name="direction">
+                <option value="">Избери</option>
+                <option>Нагоре</option>
+                <option>Надолу</option>
+                <option>Нагоре и надолу</option>
+              </select>
+            </label>
+            <label>
+              Времетраење <span class="optional">по избор</span>
+              <select name="duration">
+                <option value="">Не сум сигурен/на</option>
+                <option value="1">До 1 час</option>
+                <option value="2">Околу 2 часа</option>
+                <option value="3">3 часа или повеќе</option>
+              </select>
+            </label>
+            <label>
+              Посакуван датум <span class="optional">по избор</span>
+              <input type="date" name="date" />
+            </label>
+            <label>
+              Дополнителни забелешки <span class="optional">по избор</span>
+              <textarea
+                name="notes"
+                rows="2"
+                placeholder="Паркинг, балкон или друг пристап"
+              ></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quote-section quote-contact-fields">
+          <legend>
+            <span>05</span> Твој контакт
+          </legend>
+          <p>Сите контакт-полиња се задолжителни. Цената се потврдува индивидуално.</p>
+          <div class="quote-fields">
+            <label>
+              Име и презиме
+              <input
+                name="name"
+                autocomplete="name"
+                required
+                maxlength="100"
+                placeholder="Твоето име и презиме"
+                aria-describedby="name-error"
+              />
+              <span class="field-error" id="name-error" hidden></span>
+            </label>
+            <label>
+              Телефон{' '}
+              <input
+                name="customerPhone"
+                type="tel"
+                autocomplete="tel"
+                required
+                maxlength="40"
+                aria-describedby="phone-hint customerPhone-error"
+                placeholder="071 234 567"
+              />
+              <span class="optional" id="phone-hint">
+                На пр. 071 234 567 или +389 71 234 567.
+              </span>
+              <span class="field-error" id="customerPhone-error" hidden></span>
+            </label>
+            <label class="field-wide">
+              Е-пошта
+              <input
+                name="customerEmail"
+                type="email"
+                autocomplete="email"
+                required
+                maxlength="254"
+                aria-describedby="customerEmail-error"
+                placeholder="ime@example.com"
+              />
+              <span class="field-error" id="customerEmail-error" hidden></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <section class="quote-submit" aria-labelledby="quote-summary-title">
+          <span class="step-kicker">ПОБАРАЈ ИНДИВИДУАЛНА ПОНУДА</span>
+          <h2 id="quote-summary-title">ПОДГОТВЕНИ СМЕ.</h2>
+          <p>
+            Испрати ги деталите директно до нас. Ќе те контактираме за да ги договориме терминот и
+            цената.
+          </p>
+          <button class="button button-orange" type="submit" disabled>
+            <span data-submit-label>Испрати барање</span>
+            <span class="submit-arrow" aria-hidden="true">
+              ↗
+            </span>
+            <span class="submit-spinner" aria-hidden="true"></span>
+          </button>
+          <p
+            id="quote-status"
+            class="quote-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            tabindex="-1"
+          ></p>
+          <noscript>
+            <p>
+              За испраќање преку формата вклучи JavaScript, или контактирај нè по телефон или на
+              Instagram.
+            </p>
+          </noscript>
+          <div class="quote-direct-contact">
+            <a href={phone}>Или јави се · {content.business.phoneDisplay}</a>
+            <a href={content.business.instagram} target="_blank" rel="noopener noreferrer">
+              Instagram ↗
+            </a>
+          </div>
+        </section>
+      </form>
+
+      <aside class="quote-aside">
+        <span class="section-number">LIFTGOMK · СКОПЈЕ</span>
+        <h2>
+          ГОРЕ.
+          <br />
+          <em>БЕЗ МАКА.</em>
+        </h2>
+        <p>Преглед на деталите се прикажува додека ја пополнуваш побарувачката.</p>
+        <div id="quote-live-summary" class="quote-live-summary" aria-live="polite">
+          Локација: —<br />
+          Кат: —<br />
+          Товар: —<br />
+          Насока: —
+        </div>
+        <a class="aside-phone" href={phone}>
+          Јави се <b>{content.business.phoneDisplay} ↗</b>
+        </a>
+        <a
+          class="aside-phone"
+          href={content.business.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Пиши на Instagram <b>Отвори ↗</b>
+        </a>
+      </aside>
+    </section>
+  </main>
+  <script src="../scripts/calculator.ts"></script>
+</SiteLayout>

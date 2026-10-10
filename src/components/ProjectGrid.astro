@@ -1,0 +1,79 @@
+---
+import { projects } from '../data/projects';
+import ProjectFrame from './ProjectFrame.astro';
+import MediaModal from './MediaModal.astro';
+import ResponsiveMedia from './ResponsiveMedia.astro';
+const modalId = `media-modal-${crypto.randomUUID()}`;
+const { limit = projects.length, featured = false } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const asset = (p: string) => `${base}${p}`;
+---
+
+<div
+  data-media-modal={modalId}
+  class:list={[
+    'project-grid grid grid-cols-1 sm:grid-cols-2',
+    { featured, 'xl:grid-cols-3': !featured },
+  ]}
+>
+  {projects.slice(0, limit).map((project, i) => (
+    <article
+      class:list={['project-card', `project-${i + 1}`]}
+      data-category={project.category}
+      data-type={project.type}
+    >
+      <button
+        class="media-trigger media-card-frame aspect-video"
+        type="button"
+        data-kind={project.type}
+        data-src={asset(project.video ?? project.image ?? '')}
+        data-poster={asset(project.poster ?? project.image ?? '')}
+        data-title={project.title}
+        data-description={project.description}
+        aria-label={`${project.type === 'video' ? 'Play video' : 'Отвори фотографија'}: ${project.title}`}
+      >
+        <span class="media-image-window">
+          <ResponsiveMedia
+            src={project.poster ?? project.image ?? ''}
+            alt={project.type === 'image' ? project.title : ''}
+            width={project.type === 'image' ? 1254 : 720}
+            height={project.type === 'image' ? 1254 : 1280}
+            sizes={
+              featured
+                ? '(min-width: 1600px) 760px, (min-width: 640px) 46vw, 92vw'
+                : '(min-width: 1600px) 510px, (min-width: 1280px) 30vw, (min-width: 640px) 46vw, 92vw'
+            }
+            thumbnail
+          />
+          <span class="media-thumbnail-overlay" aria-hidden="true"></span>
+        </span>
+        <ProjectFrame />
+        {project.type === 'video' && (
+          <span class="play-button" aria-hidden="true">
+            <svg class="play-button-icon" viewBox="0 0 24 24" focusable="false">
+              <path d="M8 5.5v13l10-6.5-10-6.5Z" />
+            </svg>
+          </span>
+        )}
+        <span class="media-tag">
+          {project.type === 'video' ? 'Видео' : 'Фотографија'} · {project.category}
+        </span>
+      </button>
+      <div class="project-caption">
+        <div>
+          <h3>{project.title}</h3>
+          <p>{project.description}</p>
+          <noscript>
+            <a href={asset(project.video ?? project.image ?? '')} class="underlined-link">
+              {project.type === 'video' ? 'Отвори видео' : 'Отвори фотографија'} ↗
+            </a>
+          </noscript>
+        </div>
+        <span class="project-index">0{i + 1}</span>
+      </div>
+    </article>
+  ))}
+</div>
+<MediaModal id={modalId} />

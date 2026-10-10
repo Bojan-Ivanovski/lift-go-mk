@@ -1,0 +1,82 @@
+---
+import { getImage } from 'astro:assets';
+import hero from '../assets/images/hero-apartment.jpg';
+import materials from '../assets/images/materials.jpg';
+import moving from '../assets/images/moving.jpg';
+
+interface Props {
+  src: string;
+  alt: string;
+  sizes: string;
+  priority?: boolean;
+  thumbnail?: boolean;
+  width: number;
+  height: number;
+}
+const { src, alt, sizes, priority = false, thumbnail = false, width, height } = Astro.props;
+const originals = {
+  'hero-apartment.jpg': hero,
+  'uploads/thumbnails/liftgo-gradezni-materijali.jpg': materials,
+  'uploads/thumbnails/liftgo-preselbi.jpg': moving,
+};
+const source = originals[src as keyof typeof originals];
+const widths = (thumbnail ? [320, 480, 640, 800, 960] : [320, 480, 640, 800, 1024, 1254]).filter(
+  (size) => source && size <= source.width,
+);
+if (source && thumbnail && source.width < 960 && !widths.includes(source.width)) {
+  widths.push(source.width);
+}
+// Crop only previews to the card's 16:9 ratio. Full-size modal media stays untouched.
+const variants = source
+  ? await Promise.all(
+      widths.map((size) =>
+        getImage({
+          src: source,
+          width: size,
+          ...(thumbnail ? { height: Math.round((size * 9) / 16), fit: 'cover' } : {}),
+          format: 'webp',
+          quality: 75,
+        }),
+      ),
+    )
+  : [];
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const avifVariants =
+  priority && source
+    ? await Promise.all(
+        widths.map((size) =>
+          getImage({
+            src: source,
+            width: size,
+            format: 'avif',
+            quality: 45,
+          }),
+        ),
+      )
+    : [];
+---
+
+<picture class="contents">
+  {avifVariants.length > 0 && (
+    <source
+      type="image/avif"
+      srcset={avifVariants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')}
+      sizes={sizes}
+    />
+  )}
+  <img
+    src={variants.at(-1)?.src ?? `${base}${src}`}
+    srcset={
+      variants.length
+        ? variants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')
+        : undefined
+    }
+    sizes={variants.length ? sizes : undefined}
+    alt={alt}
+    width={thumbnail ? 1600 : width}
+    height={thumbnail ? 900 : height}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : undefined}
+    decoding="async"
+  />
+</picture>

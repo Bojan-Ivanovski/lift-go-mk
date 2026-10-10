@@ -1,0 +1,29 @@
+<svg class="project-frame-svg" aria-hidden="true" focusable="false">
+  <path class="project-frame-base" pathLength="1000" />
+  <path class="project-frame-trace" pathLength="1000" />
+</svg>
+<script>
+  import { mediaContour } from '../utils/mediaGeometry';
+
+  const updateFrame = (card: HTMLElement) => {
+    const { width, height } = card.getBoundingClientRect();
+    if (!width || !height) return;
+    const style = window.getComputedStyle(card);
+    const cut = Math.min(parseFloat(style.getPropertyValue('--cut-size')), width / 4, height / 4);
+    const stroke = parseFloat(style.getPropertyValue('--frame-stroke'));
+    const inset = stroke + parseFloat(style.getPropertyValue('--frame-gap'));
+    const border = mediaContour(width, height, cut, stroke / 2);
+    const media = mediaContour(width, height, cut, inset);
+    const svg = card.querySelector<SVGSVGElement>('.project-frame-svg');
+    svg?.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg?.querySelectorAll('path').forEach((path) => path.setAttribute('d', border.path));
+    card.style.setProperty('--media-mask', media.polygon);
+  };
+  const observer = new ResizeObserver((entries) => {
+    entries.forEach(({ target }) => updateFrame(target as HTMLElement));
+  });
+  document.querySelectorAll<HTMLElement>('.media-card-frame').forEach((card) => {
+    updateFrame(card);
+    observer.observe(card);
+  });
+</script>

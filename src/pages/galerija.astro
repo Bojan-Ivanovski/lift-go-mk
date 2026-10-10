@@ -1,0 +1,62 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+---
+
+<SiteLayout active="galerija">
+  <main id="main">
+    <section class="page-intro">
+      <span class="section-number">АРХИВА ОД ТЕРЕН · 01—03</span>
+      <h1>
+        РАБОТАТА
+        <br />
+        <em>ВО ПРАКСА.</em>
+      </h1>
+      <p>Вистински проекти на LiftGoMK — кревање материјали и помош при преселби.</p>
+    </section>
+    <section class="gallery-page section-pad">
+      <div class="gallery-filters" role="group" aria-label="Филтрирај галерија">
+        {['Сите', 'Видеа', 'Фотографии', 'Мебел', 'Преселби', 'Материјали'].map((x, i) => (
+          <button
+            type="button"
+            class:list={{ selected: i === 0 }}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            data-filter={x}
+          >
+            {x}
+          </button>
+        ))}
+      </div>
+      <ProjectGrid />
+      <p class="gallery-empty" role="status" hidden>
+        Нема проекти во оваа категорија засега.
+      </p>
+    </section>
+  </main>
+  <script>
+    const filters = [...document.querySelectorAll<HTMLButtonElement>('.gallery-filters button')];
+    const cards = [...document.querySelectorAll<HTMLElement>('.project-card')];
+    const empty = document.querySelector<HTMLElement>('.gallery-empty');
+    const matches = (c: HTMLElement, f: string) =>
+      f === 'Сите' ||
+      (f === 'Видеа' && c.dataset.type === 'video') ||
+      (f === 'Фотографии' && c.dataset.type === 'image') ||
+      c.dataset.category === f;
+    filters.forEach((b) =>
+      b.addEventListener('click', () => {
+        filters.forEach((x) => {
+          const selected = x === b;
+          x.classList.toggle('selected', selected);
+          x.setAttribute('aria-pressed', String(selected));
+        });
+        let count = 0;
+        cards.forEach((c) => {
+          const show = matches(c, b.dataset.filter ?? 'Сите');
+          c.hidden = !show;
+          if (show) count++;
+        });
+        if (empty) empty.hidden = count > 0;
+      }),
+    );
+  </script>
+</SiteLayout>

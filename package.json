@@ -1,0 +1,35 @@
+{
+  "name": "lift-go-mk",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*\" astro.config.mjs eslint.config.js package.json tsconfig.json .prettierrc.json",
+    "format:check": "prettier --check \"src/**/*\" astro.config.mjs eslint.config.js package.json tsconfig.json .prettierrc.json",
+    "test:responsive": "python3 scripts/responsive-check.py",
+    "test:viewer": "python3 scripts/media-viewer-check.py",
+    "test:seo": "python3 scripts/seo-check.py",
+    "test:contact": "python3 scripts/contact-check.py",
+    "test:performance": "python3 scripts/performance-check.py"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@tailwindcss/vite": "^4.1.14",
+    "astro": "^5.14.1",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
+    "typescript-eslint": "^8.71.1"
+  }
+}

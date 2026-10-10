@@ -1,0 +1,197 @@
+---
+import '../styles/global.css';
+import '../styles/fonts.css';
+import manropeCyrillic from '../assets/fonts/manrope-cyrillic.woff2?url';
+import manropeLatin from '../assets/fonts/manrope-latin.woff2?url';
+import content from '../content/site.json';
+import { seoPages, canonicalRoute, absoluteUrl, structuredData } from '../data/seo';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const routePath = Astro.url.pathname.startsWith(base)
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname.replace(/^\//, '');
+const route = canonicalRoute(routePath);
+const metadata = seoPages[route as keyof typeof seoPages] ?? seoPages[''];
+const { title = metadata.title, description = metadata.description, active = '' } = Astro.props;
+const link = (path: string) => `${base}${path}`;
+const phone = `tel:${content.business.phoneInternational}`;
+const canonical = absoluteUrl(Astro.site, route);
+const shareImage = absoluteUrl(Astro.site, content.hero.image);
+---
+
+<!doctype html>
+<html lang="mk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href={manropeCyrillic} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f4ef" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={link('favicon.svg?v=2')} type="image/svg+xml" sizes="any" />
+    <link rel="sitemap" type="application/xml" href={link('sitemap-index.xml')} />
+    <link
+      rel="alternate"
+      type="text/plain"
+      href={link('llms.txt')}
+      title="LiftGoMK — информации и услуги"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="mk_MK" />
+    <meta property="og:site_name" content={content.business.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1254" />
+    <meta property="og:image:height" content="1254" />
+    <meta property="og:image:alt" content={content.hero.imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <meta name="twitter:image:alt" content={content.hero.imageAlt} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData(Astro.site, route, title, description)).replace(
+        /</g,
+        '\\u003c',
+      )}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Прескокни до содржината
+    </a>
+    <header class="site-header">
+      <a class="wordmark" href={link('')} aria-label="LiftGoMK почетна">
+        LIFTGO<span>MK</span>
+      </a>
+      <nav id="primary-navigation" class="desktop-nav" aria-label="Главна навигација">
+        <a class:list={{ active: active === 'home' }} href={link('')}>
+          Почетна
+        </a>
+        <a class:list={{ active: active === 'uslugi' }} href={link('uslugi/')}>
+          Услуги
+        </a>
+        <a class:list={{ active: active === 'galerija' }} href={link('galerija/')}>
+          Галерија
+        </a>
+        <a class:list={{ active: active === 'cena' || active === 'kontakt' }} href={link('cena/')}>
+          Понуда и контакт
+        </a>
+      </nav>
+      <a class="header-call" href={phone}>
+        Јави се <span>{content.business.phoneDisplay}</span>
+      </a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Отвори навигација"
+        aria-controls="primary-navigation"
+        aria-expanded="false"
+      >
+        <span class="menu-icon" aria-hidden="true">
+          <i></i>
+          <i></i>
+        </span>
+      </button>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <div class="footer-main">
+        <a class="wordmark" href={link('')}>
+          LIFTGO<span>MK</span>
+        </a>
+        <p>
+          Надворешно кревање во Скопје.
+          <br />
+          Горе. Без мака.
+        </p>
+        <div class="footer-links">
+          <a href={link('uslugi/')}>Услуги</a>
+          <a href={link('galerija/')}>Галерија</a>
+          <a href={link('cena/')}>Понуда и контакт</a>
+        </div>
+        <div class="footer-contact">
+          <a href={phone}>{content.business.phoneDisplay}</a>
+          <a
+            href={`mailto:${content.business.email}`}
+            aria-label={`Е-пошта: ${content.business.email}`}
+          >
+            Е-пошта ↗
+          </a>
+          <a href={content.business.instagram} target="_blank" rel="noopener noreferrer">
+            Instagram ↗
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© {new Date().getFullYear()} LiftGoMK</span>
+        <span>{content.business.location} · надворешно кревање</span>
+      </div>
+    </footer>
+    <div class="mobile-bar">
+      <a href={phone}>Јави се</a>
+      <a href={link('cena/')}>Понуда и контакт</a>
+    </div>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const nav = document.querySelector<HTMLElement>('.desktop-nav');
+      const closeMenu = () => {
+        toggle?.setAttribute('aria-expanded', 'false');
+        nav?.classList.remove('nav-open');
+        toggle?.setAttribute('aria-label', 'Отвори навигација');
+      };
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav?.classList.toggle('nav-open', !open);
+        toggle.setAttribute('aria-label', open ? 'Отвори навигација' : 'Затвори навигација');
+        if (!open) nav?.querySelector('a')?.focus();
+      });
+      document.addEventListener('click', (event) => {
+        if (
+          event.target instanceof Node &&
+          !document.querySelector('.site-header')?.contains(event.target)
+        ) {
+          closeMenu();
+        }
+      });
+      const compactNavigation = window.matchMedia('(max-width: 959px)');
+      compactNavigation.addEventListener('change', () => {
+        const focusedMenu = nav?.contains(document.activeElement);
+        closeMenu();
+        if (compactNavigation.matches && focusedMenu) toggle?.focus();
+      });
+      nav?.addEventListener('focusout', () => {
+        requestAnimationFrame(() => {
+          if (!nav.contains(document.activeElement) && document.activeElement !== toggle)
+            closeMenu();
+        });
+      });
+      nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+      const observer = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              observer.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

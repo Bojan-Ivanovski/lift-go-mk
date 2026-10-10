@@ -1,0 +1,132 @@
+---
+import ViewerIcon from './ViewerIcon.astro';
+import '../styles/media-viewer.css';
+const { id } = Astro.props;
+---
+
+<dialog id={id} class="media-dialog" aria-labelledby={`${id}-title`}>
+  <div class="cinematic-viewer" tabindex="-1">
+    <p id={`${id}-shortcuts`} class="sr-only">
+      Space: пушти или паузирај. M: звук. F: цел екран. Стрелки: претходен или следен проект.
+      Escape: затвори.
+    </p>
+    <header class="viewer-header">
+      <div class="viewer-heading">
+        <span class="viewer-eyebrow">
+          LIFTGOMK <span aria-hidden="true">/</span> <span data-viewer-type></span>
+        </span>
+        <h2 id={`${id}-title`} class="media-dialog-title"></h2>
+      </div>
+      <button
+        type="button"
+        class="viewer-icon-button media-close"
+        aria-label="Затвори преглед (Escape)"
+      >
+        <ViewerIcon name="close" />
+      </button>
+    </header>
+
+    <div class="viewer-stage" aria-busy="false">
+      <div class="media-dialog-content"></div>
+      <div class="viewer-status" role="status" aria-live="polite" hidden></div>
+      <button type="button" class="viewer-retry" hidden>
+        Обиди се повторно
+      </button>
+      <button type="button" class="viewer-start" aria-label="Пушти видео" hidden>
+        <ViewerIcon name="play" />
+      </button>
+    </div>
+
+    <div class="viewer-controls" role="group" aria-label="Контроли на видеото" hidden>
+      <div class="viewer-timeline">
+        <label class="sr-only" for={`${id}-seek`}>
+          Позиција во видеото
+        </label>
+        <input
+          id={`${id}-seek`}
+          class="viewer-seek"
+          type="range"
+          min="0"
+          max="100"
+          step="0.1"
+          value="0"
+          disabled
+        />
+        <span class="viewer-time">
+          <span data-current-time>0:00</span> <span aria-hidden="true">/</span>{' '}
+          <span data-duration>0:00</span>
+        </span>
+      </div>
+      <div class="viewer-control-row">
+        <button
+          type="button"
+          class="viewer-icon-button viewer-toggle"
+          aria-label="Пушти видео (Space)"
+        >
+          <span data-play-icon>
+            <ViewerIcon name="play" />
+          </span>
+          <span data-pause-icon hidden>
+            <ViewerIcon name="pause" />
+          </span>
+        </button>
+        <button
+          type="button"
+          class="viewer-icon-button viewer-mute"
+          aria-label="Вклучи звук (M)"
+          aria-pressed="true"
+        >
+          <span data-volume-icon hidden>
+            <ViewerIcon name="volume" />
+          </span>
+          <span data-muted-icon>
+            <ViewerIcon name="muted" />
+          </span>
+        </button>
+        <label class="sr-only" for={`${id}-volume`}>
+          Јачина на звукот
+        </label>
+        <input
+          id={`${id}-volume`}
+          class="viewer-volume"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0"
+        />
+        <span class="viewer-control-hint" aria-hidden="true">
+          SPACE · ПУШТИ / ПАУЗИРАЈ
+        </span>
+        <button
+          type="button"
+          class="viewer-icon-button viewer-fullscreen"
+          aria-label="Цел екран (F)"
+          aria-pressed="false"
+        >
+          <ViewerIcon name="fullscreen" />
+        </button>
+      </div>
+    </div>
+
+    <footer class="viewer-footer">
+      <div class="viewer-caption">
+        <span class="viewer-index" aria-live="polite"></span>
+        <p class="viewer-description"></p>
+      </div>
+      <div class="viewer-navigation" role="group" aria-label="Навигација низ медиуми">
+        <button
+          type="button"
+          class="viewer-icon-button viewer-previous"
+          aria-label="Претходен проект (←)"
+        >
+          <ViewerIcon name="previous" />
+        </button>
+        <button type="button" class="viewer-icon-button viewer-next" aria-label="Следен проект (→)">
+          <ViewerIcon name="next" />
+        </button>
+      </div>
+    </footer>
+  </div>
+</dialog>
+<script src="../scripts/mediaViewer.ts"></script>
