@@ -32,20 +32,22 @@ for route in ('', 'uslugi', 'galerija', 'cena', 'kontakt'):
     fonts = [link for link in page.links if link.get('as') == 'font']
     assert len(fonts) == 2 and all(asset(link['href']).suffix == '.woff2' for link in fonts)
     for image in page.images:
-        assert asset(image['src']).suffix == '.webp', image
+        assert asset(image['src']).suffix in ('.jpg', '.jpeg'), image
         assert image.get('srcset') and image.get('sizes'), image
         for entry in image['srcset'].split(','):
-            assert asset(entry.strip().split()[0]).suffix == '.webp'
+            assert asset(entry.strip().split()[0]).suffix in ('.jpg', '.jpeg')
         assert int(image['width']) > 0 and int(image['height']) > 0
     for source in page.sources:
-        if source.get('type') == 'image/avif':
+        assert source.get('type') != 'image/avif', 'Avoid early iOS AVIF/picture decoding bugs.'
+        if source.get('type') == 'image/webp':
             for entry in source['srcset'].split(','):
-                assert asset(entry.strip().split()[0]).suffix == '.avif'
+                assert asset(entry.strip().split()[0]).suffix == '.webp'
     if route == '':
         assert page.images[0]['fetchpriority'] == 'high' and page.images[0]['loading'] == 'eager'
-        assert any(source.get('type') == 'image/avif' for source in page.sources)
+        assert any(source.get('type') == 'image/webp' for source in page.sources)
         assert all(image['loading'] == 'lazy' for image in page.images[1:])
     if route == 'galerija':
         assert all(image['loading'] == 'lazy' for image in page.images)
     print('Optimized delivery:', route or 'home')
-print('PASS: local fonts, inline styles, eager AVIF/WebP hero, lazy responsive WebP previews and valid asset URLs.')
+    assert '@layer' not in html, 'Safari before 15.4 cannot read cascade layers.'
+print('PASS: local fonts, flattened inline styles, eager WebP/JPEG hero, lazy responsive previews and valid asset URLs.')

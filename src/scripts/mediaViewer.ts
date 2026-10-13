@@ -231,6 +231,11 @@ document.querySelectorAll<HTMLDialogElement>('.media-dialog').forEach((dialog) =
   };
   cards.forEach((card) =>
     card.addEventListener('click', () => {
+      if (typeof dialog.showModal !== 'function') {
+        // Safari before 15.4 can still view the original image/video in its native viewer.
+        if (card.dataset.src) window.location.assign(card.dataset.src);
+        return;
+      }
       if (dialog.open) return;
       opener = card;
       activeCards = cards.filter((item) => !item.closest<HTMLElement>('.project-card')?.hidden);

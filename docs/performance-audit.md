@@ -3,7 +3,7 @@
 ## Changes
 
 - `ResponsiveMedia.astro` generates responsive, hashed WebP images at build time.
-  The hero also offers AVIF, with WebP fallback, eager loading and high priority.
+  The hero uses WebP with an explicit JPEG fallback, eager loading and high priority.
   Candidate widths include 320, 480, 640, 800, 1024 and 1254 pixels.
 - Gallery previews are cropped to 16:9 during generation and lazy-loaded. Full
   photo/video URLs and modal aspect ratios remain unchanged.
@@ -27,7 +27,8 @@ Original public JPEGs remain available for sharing previews and full viewing.
 
 Lighthouse **13.5.0**, default mobile preset with simulated throttling, using the
 installed Chromium-based Brave browser against the local Astro production
-preview. One baseline and one final run on the same machine:
+preview. One baseline and one final run on the same machine, before the subsequent
+iPhone compatibility changes (these measurements used AVIF for the hero):
 
 | Metric | Before | After |
 | --- | ---: | ---: |

@@ -15,7 +15,8 @@
     "test:viewer": "python3 scripts/media-viewer-check.py",
     "test:seo": "python3 scripts/seo-check.py",
     "test:contact": "python3 scripts/contact-check.py",
-    "test:performance": "python3 scripts/performance-check.py"
+    "test:performance": "python3 scripts/performance-check.py",
+    "test:iphone": "node scripts/iphone-check.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -25,9 +26,11 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@csstools/postcss-cascade-layers": "^6.0.2",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.12.0",
     "eslint-plugin-astro": "^3.2.1",
+    "postcss": "^8.5.30",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "typescript-eslint": "^8.71.1"

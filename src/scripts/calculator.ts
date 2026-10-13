@@ -18,7 +18,18 @@ if (form) {
     const target = destination.getBoundingClientRect();
     platform.style.bottom = `${Math.max(0, rail.getBoundingClientRect().bottom - target.top - target.height / 2 - platform.offsetHeight / 2)}px`;
   };
-  new ResizeObserver(updateLiftPosition).observe(form.querySelector('.floor-picker')!);
+  if (typeof ResizeObserver === 'function') {
+    new ResizeObserver(updateLiftPosition).observe(form.querySelector('.floor-picker')!);
+  } else {
+    window.addEventListener('resize', updateLiftPosition);
+  }
+  // Older webviews lack :has(); keep the mobile bar out of the form/keyboard area.
+  form.addEventListener('focusin', () => document.body.classList.add('form-field-focused'));
+  form.addEventListener('focusout', () => {
+    window.setTimeout(() => {
+      document.body.classList.toggle('form-field-focused', form.contains(document.activeElement));
+    }, 0);
+  });
   const selectedItems = () =>
     [...form.querySelectorAll<HTMLInputElement>('input[name="items"]:checked')].map(
       (input) => input.value,

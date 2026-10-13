@@ -41,37 +41,40 @@ const variants = source
     )
   : [];
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const avifVariants =
-  priority && source
-    ? await Promise.all(
-        widths.map((size) =>
-          getImage({
-            src: source,
-            width: size,
-            format: 'avif',
-            quality: 45,
-          }),
-        ),
-      )
-    : [];
+// A JPEG img fallback works even in webviews without modern format support.
+// WebP is selected through picture; AVIF is intentionally avoided for early iOS 16.
+const jpegVariants = source
+  ? await Promise.all(
+      widths.map((size) =>
+        getImage({
+          src: source,
+          width: size,
+          ...(thumbnail ? { height: Math.round((size * 9) / 16), fit: 'cover' } : {}),
+          format: 'jpeg',
+          quality: 75,
+        }),
+      ),
+    )
+  : [];
 ---
 
-<picture class="contents">
-  {avifVariants.length > 0 && (
+<picture class="responsive-media">
+  {variants.length > 0 && (
     <source
-      type="image/avif"
-      srcset={avifVariants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')}
+      type="image/webp"
+      srcset={variants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')}
       sizes={sizes}
     />
   )}
   <img
-    src={variants.at(-1)?.src ?? `${base}${src}`}
+    src={jpegVariants.at(-1)?.src ?? `${base}${src}`}
     srcset={
-      variants.length
-        ? variants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')
+      jpegVariants.length
+        ? jpegVariants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')
         : undefined
     }
-    sizes={variants.length ? sizes : undefined}
+    sizes={jpegVariants.length ? sizes : undefined}
+    data-original-src={`${base}${src}`}
     alt={alt}
     width={thumbnail ? 1600 : width}
     height={thumbnail ? 900 : height}
@@ -80,3 +83,26 @@ const avifVariants =
     decoding="async"
   />
 </picture>
+
+<script>
+  document.querySelectorAll<HTMLImageElement>('.responsive-media img').forEach((image) => {
+    let retries = 0;
+    const recover = () => {
+      if (retries >= 2) return;
+      const picture = image.closest('picture');
+      if (retries === 0 && /\.webp(?:\?|$)/i.test(image.currentSrc)) {
+        retries = 1;
+        picture?.querySelectorAll('source').forEach((source) => source.remove());
+        // Removing source makes the browser select the JPEG img/srcset.
+      } else {
+        retries = 2;
+        picture?.querySelectorAll('source').forEach((source) => source.remove());
+        image.removeAttribute('srcset');
+        image.removeAttribute('sizes');
+        if (image.dataset.originalSrc) image.src = image.dataset.originalSrc;
+      }
+    };
+    image.addEventListener('error', recover);
+    if (image.complete && image.naturalWidth === 0) recover();
+  });
+</script>

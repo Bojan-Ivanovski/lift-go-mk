@@ -19,11 +19,16 @@
     svg?.querySelectorAll('path').forEach((path) => path.setAttribute('d', border.path));
     card.style.setProperty('--media-mask', media.polygon);
   };
-  const observer = new ResizeObserver((entries) => {
-    entries.forEach(({ target }) => updateFrame(target as HTMLElement));
-  });
-  document.querySelectorAll<HTMLElement>('.media-card-frame').forEach((card) => {
+  const cards = [...document.querySelectorAll<HTMLElement>('.media-card-frame')];
+  const observer =
+    typeof ResizeObserver === 'function'
+      ? new ResizeObserver((entries) => {
+          entries.forEach(({ target }) => updateFrame(target as HTMLElement));
+        })
+      : undefined;
+  cards.forEach((card) => {
     updateFrame(card);
-    observer.observe(card);
+    observer?.observe(card);
   });
+  if (!observer) window.addEventListener('resize', () => cards.forEach(updateFrame));
 </script>
