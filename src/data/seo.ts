@@ -1,5 +1,6 @@
-import content from '../content/site.json';
+import content from '../data/site';
 import { faqs } from './faqs';
+import { mediaPath } from '../utils/mediaPath';
 
 export const seoPages = {
   '': {
@@ -70,7 +71,7 @@ export function structuredData(
       name: content.business.name,
       alternateName: 'Lift Go MK',
       url: url(),
-      image: url(content.hero.image),
+      image: url(mediaPath(content.hero.image)),
       logo: url('favicon.svg'),
       telephone: content.business.phoneInternational,
       email: content.business.email,

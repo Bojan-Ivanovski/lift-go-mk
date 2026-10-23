@@ -1,6 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
-import content from '../content/site.json';
+import content from '../data/site';
 import { faqs } from '../data/faqs';
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -44,7 +44,7 @@ const serviceDetails = [
           <span class="service-num">0{i + 1}</span>
           <div>
             <p class="step-kicker">УСЛУГА 0{i + 1}</p>
-            <h2>{['Мебел и бела техника', 'Преселби', 'Материјали за реновирање'][i]}</h2>
+            <h2>{service.title}</h2>
             <p>{service.text}</p>
             <details class="service-more">
               <summary>

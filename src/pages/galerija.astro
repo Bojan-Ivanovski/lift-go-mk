@@ -1,12 +1,13 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import ProjectGrid from '../components/ProjectGrid.astro';
+import { projects } from '../data/projects';
 ---
 
 <SiteLayout active="galerija">
   <main id="main">
     <section class="page-intro">
-      <span class="section-number">АРХИВА ОД ТЕРЕН · 01—03</span>
+      <span class="section-number">АРХИВА ОД ТЕРЕН · {projects.length} ПРОЕКТИ</span>
       <h1>
         РАБОТАТА
         <br />

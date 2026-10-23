@@ -3,6 +3,7 @@ import { getImage } from 'astro:assets';
 import hero from '../assets/images/hero-apartment.jpg';
 import materials from '../assets/images/materials.jpg';
 import moving from '../assets/images/moving.jpg';
+import { mediaPath, mediaUrl } from '../utils/mediaPath';
 
 interface Props {
   src: string;
@@ -19,7 +20,7 @@ const originals = {
   'uploads/thumbnails/liftgo-gradezni-materijali.jpg': materials,
   'uploads/thumbnails/liftgo-preselbi.jpg': moving,
 };
-const source = originals[src as keyof typeof originals];
+const source = originals[mediaPath(src) as keyof typeof originals];
 const widths = (thumbnail ? [320, 480, 640, 800, 960] : [320, 480, 640, 800, 1024, 1254]).filter(
   (size) => source && size <= source.width,
 );
@@ -40,7 +41,6 @@ const variants = source
       ),
     )
   : [];
-const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 // A JPEG img fallback works even in webviews without modern format support.
 // WebP is selected through picture; AVIF is intentionally avoided for early iOS 16.
 const jpegVariants = source
@@ -67,14 +67,14 @@ const jpegVariants = source
     />
   )}
   <img
-    src={jpegVariants.at(-1)?.src ?? `${base}${src}`}
+    src={jpegVariants.at(-1)?.src ?? mediaUrl(src)}
     srcset={
       jpegVariants.length
         ? jpegVariants.map((image, index) => `${image.src} ${widths[index]}w`).join(', ')
         : undefined
     }
     sizes={jpegVariants.length ? sizes : undefined}
-    data-original-src={`${base}${src}`}
+    data-original-src={mediaUrl(src)}
     alt={alt}
     width={thumbnail ? 1600 : width}
     height={thumbnail ? 900 : height}

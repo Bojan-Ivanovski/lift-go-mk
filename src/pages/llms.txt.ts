@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import content from '../content/site.json';
+import content from '../data/site';
 import { seoPages, absoluteUrl } from '../data/seo';
 import { faqs } from '../data/faqs';
 import { projects } from '../data/projects';

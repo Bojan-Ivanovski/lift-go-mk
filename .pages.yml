@@ -1,0 +1,262 @@
+# Client editor: preserve fields outside each small form. Never disable merge.
+media:
+  - name: images
+    label: Фотографии
+    input: public/uploads
+    output: /lift-go-mk/uploads
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+    rename: random
+  - name: videos
+    label: Видеа
+    input: public/uploads/videos
+    output: /lift-go-mk/uploads/videos
+    extensions:
+      - mp4
+    rename: random
+content:
+  - name: gallery
+    label: 01 · Фотографии и видеа
+    type: file
+    path: src/content/site.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: videos
+        label: Видеа
+        type: object
+        list:
+          max: 30
+          collapsible:
+            collapsed: true
+            summary: '{fields.title}'
+        fields:
+          - name: title
+            label: Наслов
+            type: string
+            required: true
+            options:
+              maxlength: 80
+          - name: video
+            label: Видео снимка
+            type: file
+            required: true
+            options:
+              media: videos
+              extensions:
+                - mp4
+            description: MP4 видео. Препорачано до 20 MB. За поголема снимка побарај помош.
+          - name: thumbnail
+            label: Насловна фотографија на видеото
+            type: image
+            required: true
+            options:
+              media: images
+            description: 'Избери или постави JPG, PNG или WebP. Препорачана големина: до 2
+              MB.'
+          - name: category
+            label: Каква работа е прикажана?
+            type: select
+            required: true
+            default: Мебел
+            options:
+              values:
+                - Мебел
+                - Преселби
+                - Материјали
+          - name: description
+            label: Краток опис
+            type: text
+            required: false
+            options:
+              maxlength: 250
+          - name: visible
+            label: Прикажи на веб-страницата
+            type: boolean
+            default: true
+            description: Исклучи за привремено да го скриеш проектот. Не мора да го
+              избришеш.
+      - name: photos
+        label: Фотографии
+        type: object
+        list:
+          max: 50
+          collapsible:
+            collapsed: true
+            summary: '{fields.title}'
+        fields:
+          - name: title
+            label: Наслов
+            type: string
+            required: true
+            options:
+              maxlength: 80
+          - name: image
+            label: Фотографија
+            type: image
+            required: true
+            options:
+              media: images
+            description: 'Избери или постави JPG, PNG или WebP. Препорачана големина: до 2
+              MB.'
+          - name: category
+            label: Каква работа е прикажана?
+            type: select
+            required: true
+            default: Мебел
+            options:
+              values:
+                - Мебел
+                - Преселби
+                - Материјали
+          - name: description
+            label: Краток опис
+            type: text
+            required: false
+            options:
+              maxlength: 250
+          - name: visible
+            label: Прикажи на веб-страницата
+            type: boolean
+            default: true
+            description: Исклучи за привремено да го скриеш проектот. Не мора да го
+              избришеш.
+  - name: home
+    label: 02 · Главна фотографија и опис
+    type: file
+    path: src/content/site.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: hero
+        label: Почетна страница
+        type: object
+        fields:
+          - name: image
+            label: Главна фотографија
+            type: image
+            required: true
+            options:
+              media: images
+            description: 'Избери или постави JPG, PNG или WebP. Препорачана големина: до 2
+              MB.'
+          - name: imageAlt
+            label: Што има на фотографијата?
+            type: text
+            required: true
+            options:
+              maxlength: 180
+          - name: description
+            label: Краток опис под насловот
+            type: text
+            required: true
+            options:
+              maxlength: 260
+  - name: texts
+    label: 03 · Опис на услугите
+    type: file
+    path: src/content/site.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: services
+        label: Трите услуги
+        type: object
+        required: true
+        list:
+          min: 3
+          max: 3
+          collapsible:
+            collapsed: true
+            summary: '{fields.title}'
+        fields:
+          - name: title
+            label: Наслов
+            type: string
+            required: true
+            options:
+              maxlength: 80
+            readonly: true
+          - name: text
+            label: Опис
+            type: text
+            required: true
+            options:
+              maxlength: 350
+      - name: steps
+        label: Трите чекори
+        type: object
+        required: true
+        list:
+          min: 3
+          max: 3
+          collapsible:
+            collapsed: true
+            summary: '{fields.title}'
+        fields:
+          - name: title
+            label: Наслов
+            type: string
+            required: true
+            options:
+              maxlength: 80
+            readonly: true
+          - name: text
+            label: Опис
+            type: text
+            required: true
+            options:
+              maxlength: 350
+  - name: contact
+    label: 04 · Телефон и Instagram
+    type: file
+    path: src/content/site.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: business
+        label: Контакт
+        type: object
+        fields:
+          - name: phoneDisplay
+            label: Телефонски број
+            type: string
+            required: true
+            description: 'Пример: 071 486 824. Копчето „Јави се“ се ажурира автоматски.'
+            pattern:
+              regex: ^(?:0|\+389)[2-9](?:[ -]?\d){6,7}$
+              message: Внеси македонски телефон, на пример 071 486 824.
+          - name: instagram
+            label: Линк до Instagram профилот
+            type: string
+            required: true
+            pattern:
+              regex: ^https://(?:www\.)?instagram\.com/[A-Za-z0-9_.]+/?$
+              message: Копирај го целиот линк до Instagram профилот, почнувајќи со
+                https://www.instagram.com/.
+settings:
+  hide: true
+  content:
+    merge: true
+  commit:
+    identity: app
+    templates:
+      create: 'content: add {filename}'
+      update: 'content: update {name}'
+      delete: 'content: remove {filename}'
+      rename: 'content: rename {oldFilename} to {newFilename}'

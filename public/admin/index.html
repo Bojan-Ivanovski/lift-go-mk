@@ -4,9 +4,202 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>LiftGoMK — CMS</title>
+    <meta name="theme-color" content="#20211f" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <title>LiftGoMK — Уреди ја страницата</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, sans-serif;
+        color: #20211f;
+        background: #f6f4ef;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: clamp(20px, 5vw, 64px);
+      }
+      main {
+        max-width: 800px;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #ccc8be;
+      }
+      .brand {
+        font-size: 20px;
+        font-weight: 850;
+        letter-spacing: -0.04em;
+      }
+      .brand span {
+        color: #a93b12;
+      }
+      a {
+        color: inherit;
+        text-underline-offset: 5px;
+      }
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid #a93b12;
+        outline-offset: 5px;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 56px);
+        line-height: 1.08;
+        letter-spacing: -0.045em;
+        margin: 40px 0 20px;
+      }
+      p,
+      li {
+        font-size: 17px;
+        line-height: 1.65;
+      }
+      .intro {
+        max-width: 55ch;
+      }
+      .button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 28px;
+        min-height: 56px;
+        padding: 16px 28px;
+        margin: 16px 0 24px;
+        background: #f36b38;
+        color: #181a19;
+        font-weight: 750;
+        font-size: 18px;
+        text-decoration: none;
+      }
+      .button:hover {
+        background: #ff8051;
+      }
+      .guide {
+        padding: clamp(20px, 4vw, 32px);
+        border: 1px solid #ccc8be;
+        background: #eae7e0;
+      }
+      h2 {
+        margin: 0 0 20px;
+        font-size: 23px;
+      }
+      ol {
+        padding-left: 25px;
+        margin: 0;
+      }
+      li {
+        padding: 0 0 16px 8px;
+      }
+      li:last-child {
+        padding-bottom: 0;
+      }
+      li::marker {
+        color: #a93b12;
+        font-weight: 800;
+      }
+      details {
+        margin-top: 24px;
+        border-top: 1px solid #ccc8be;
+      }
+      summary {
+        cursor: pointer;
+        min-height: 52px;
+        padding: 16px 0;
+        font-weight: 700;
+      }
+      details p {
+        margin-top: 0;
+      }
+      .note {
+        font-size: 15px;
+        color: #53554f;
+      }
+      @media (max-width: 420px) {
+        .button {
+          width: 100%;
+          padding-inline: 16px;
+        }
+        header a {
+          font-size: 14px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <main>
+      <header>
+        <div class="brand">LIFTGO<span>MK</span></div>
+        <a href="../">Види ја веб-страницата ↗</a>
+      </header>
+      <h1>Уреди ја страницата.<br />Чекор по чекор.</h1>
+      <p class="intro">
+        Додај фотографија или видео, смени опис или ажурирај го телефонот. Изгледот на страницата
+        останува ист.
+      </p>
+      <a class="button" href="https://app.pagescms.org/Bojan-Ivanovski/lift-go-mk/main"
+        >Отвори го уредувачот <span aria-hidden="true">↗</span></a
+      >
+      <section class="guide" aria-labelledby="guide-title">
+        <h2 id="guide-title">Три едноставни чекори</h2>
+        <ol>
+          <li>
+            <strong>Најави се со е-пошта.</strong><br />Користи ја адресата на која ја доби
+            поканата. Отвори го линкот што ќе ти пристигне во пораката.
+          </li>
+          <li>
+            <strong>Избери што сакаш да смениш.</strong><br />Фотографии и видеа, главна
+            фотографија, описи или контакт.
+          </li>
+          <li>
+            <strong>Провери и зачувај.</strong><br />Притисни „Save“ (Зачувај). Почекај да заврши
+            објавувањето, па отвори ја веб-страницата повторно.
+          </li>
+        </ol>
+      </section>
+      <details>
+        <summary>Како да додадам фотографија или видео?</summary>
+        <p>
+          Отвори „01 · Фотографии и видеа“. Додај ставка во соодветната листа, напиши наслов и
+          избери датотека. За видео избери и насловна фотографија. Избери категорија и зачувај.
+        </p>
+        <p>
+          За привремено криење, исклучи „Прикажи на веб-страницата“. Со повторно вклучување проектот
+          се враќа.
+        </p>
+        <p class="note">
+          Користи JPG, PNG или WebP фотографии, по можност до 2 MB. Видеата треба да бидат MP4, по
+          можност до 20 MB. За поголеми снимки побарај помош.
+        </p>
+      </details>
+      <details>
+        <summary>Не ми пристигнува пораката за најава.</summary>
+        <p>
+          Провери ја папката „Spam“ и дали ја внесуваш поканетата адреса. Ако линкот истекол,
+          побарај нов. Ако немаш покана, побарај пристап од лицето што ја одржува страницата.
+        </p>
+      </details>
+      <details>
+        <summary>Зачував, но не ја гледам промената.</summary>
+        <p>
+          Зачувувањето и објавувањето се два чекори. Почекај неколку минути и освежи ја
+          веб-страницата. Ако промената не се појави, побарај помош; не ја додавај истата ставка
+          повторно.
+        </p>
+      </details>
+      <p class="note">Уредувачот се отвора во Pages CMS. Пристап имаат само поканети корисници.</p>
+      <noscript
+        ><p>
+          Ова упатство работи без JavaScript. За уредувачот треба да го вклучиш JavaScript во
+          прелистувачот.
+        </p></noscript
+      >
+    </main>
   </body>
 </html>

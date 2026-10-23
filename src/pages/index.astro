@@ -3,7 +3,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 import ProjectGrid from '../components/ProjectGrid.astro';
 import ProjectFrame from '../components/ProjectFrame.astro';
 import ResponsiveMedia from '../components/ResponsiveMedia.astro';
-import content from '../content/site.json';
+import content from '../data/site';
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -15,20 +15,17 @@ const phone = `tel:${content.business.phoneInternational}`;
     <section class="hero grid grid-cols-1 min-[960px]:grid-cols-[1fr_1.03fr]">
       <div class="hero-copy">
         <p class="eyebrow">
-          <i></i> Скопје <span>·</span> надворешно кревање
+          <i></i> {content.hero.eyebrow}
         </p>
         <svg class="hero-rise" viewBox="0 0 120 180" fill="none" aria-hidden="true">
           <path d="M12 65 60 17l48 48M60 20v144" />
         </svg>
         <h1>
-          ГОРЕ.
+          {content.hero.title}
           <br />
-          <em>БЕЗ МАКА.</em>
+          <em>{content.hero.accentTitle}</em>
         </h1>
-        <p class="hero-intro">
-          LiftGoMK крева мебел, бела техника и материјали во Скопје — директно до вашиот кат, без
-          мака по скали.
-        </p>
+        <p class="hero-intro">{content.hero.description}</p>
         <div class="hero-actions">
           <a class="button button-orange" href={`${base}cena/`}>
             Пресметај цена <span>↗</span>
@@ -85,9 +82,7 @@ const phone = `tel:${content.business.phoneInternational}`;
         {content.services.map((s, i) => (
           <a class="service-row reveal" href={`${base}uslugi/#usluga-${i + 1}`}>
             <span class="service-num">0{i + 1}</span>
-            <span class="service-title">
-              {['Мебел и бела техника', 'Преселби', 'Материјали за реновирање'][i]}
-            </span>
+            <span class="service-title">{s.title}</span>
             <span class="service-copy">{s.text}</span>
             <span class="service-arrow">↗</span>
           </a>
@@ -116,7 +111,7 @@ const phone = `tel:${content.business.phoneInternational}`;
           <article class="step reveal">
             <span class="step-number">0{i + 1}</span>
             <div class="step-line"></div>
-            <h3>{['Испрати локација', 'Договори термин', 'Ние креваме'][i]}</h3>
+            <h3>{step.title}</h3>
             <p>{step.text}</p>
           </article>
         ))}

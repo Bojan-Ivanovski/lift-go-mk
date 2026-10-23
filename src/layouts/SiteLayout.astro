@@ -2,7 +2,8 @@
 import '../styles/global.css';
 import manropeCyrillic from '../assets/fonts/manrope-cyrillic.woff2?url';
 import manropeLatin from '../assets/fonts/manrope-latin.woff2?url';
-import content from '../content/site.json';
+import content from '../data/site';
+import { mediaPath } from '../utils/mediaPath';
 import { seoPages, canonicalRoute, absoluteUrl, structuredData } from '../data/seo';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const routePath = Astro.url.pathname.startsWith(base)
@@ -14,7 +15,7 @@ const { title = metadata.title, description = metadata.description, active = '' 
 const link = (path: string) => `${base}${path}`;
 const phone = `tel:${content.business.phoneInternational}`;
 const canonical = absoluteUrl(Astro.site, route);
-const shareImage = absoluteUrl(Astro.site, content.hero.image);
+const shareImage = absoluteUrl(Astro.site, mediaPath(content.hero.image));
 ---
 
 <!doctype html>

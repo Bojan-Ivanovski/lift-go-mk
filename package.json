@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "npm run validate:content && astro check && astro build",
+    "validate:content": "node scripts/validate-content.mjs",
     "preview": "astro preview",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",

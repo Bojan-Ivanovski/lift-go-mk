@@ -1,4 +1,4 @@
-import content from '../content/site.json';
+import content from '../data/site';
 
 /** Visible answers and structured data use the same verified business facts. */
 export const faqs = [
