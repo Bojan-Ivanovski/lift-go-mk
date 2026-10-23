@@ -41,7 +41,8 @@ def setup(route='cena/', width=390):
         if(window.mode==='invalid')return Promise.resolve(new Response('not-json'));
         if(window.mode==='null')return Promise.resolve(new Response('null'));
         if(window.mode==='unexpected')return Promise.resolve(new Response(JSON.stringify({message:'unexpected'})));
-        return Promise.resolve(new Response(JSON.stringify({success:window.mode==='success'}),{status:window.mode==='http'?429:200}));
+        const success=window.mode==='success-string'?'true':window.mode==='rejection-string'?'false':window.mode==='success';
+        return Promise.resolve(new Response(JSON.stringify({success}),{status:window.mode==='http'?429:200}));
       };
     """)
     js(fill_script)
@@ -97,9 +98,9 @@ try:
     js("finish(new Response(JSON.stringify({success:true}))); ")
     settle()
     payload = js("return requests[0];")
-    assert payload['url'] == 'https://api.web3forms.com/submit' and payload['method'] == 'POST'
+    assert payload['url'] == 'https://formsubmit.co/ajax/doriko6256%40goldvester.com' and payload['method'] == 'POST'
     assert payload['body']['email']=='test@example.com' and payload['body']['phone']=='+389 71 234 567'
-    assert payload['body']['service']=='Мебел' and payload['body']['botcheck'] is False
+    assert payload['body']['service']=='Мебел' and payload['body']['_honey']==''
     assert '10. кат' in payload['body']['message'] and 'Гардеробер' in payload['body']['message']
     assert js("return document.querySelector('#quote-status').dataset.state==='success' && document.activeElement.id==='quote-status' && !document.querySelector('button[type=submit]').disabled && [...document.querySelectorAll('fieldset')].every(f=>!f.disabled);")
     assert js("return ['city','name','customerEmail','customerPhone','details','floor'].every(n=>document.querySelector('[name='+n+']').value==='') && !document.querySelector('[aria-pressed=true]') && !document.querySelector('input[name=items]:checked') && document.querySelector('#quote-live-summary').textContent.includes('Кат: —');")
@@ -112,12 +113,17 @@ try:
     submit()
     settle()
     assert js("return requests.length===2 && document.querySelector('#quote-status').dataset.state==='success';")
+    setup()
+    js("window.mode='success-string';")
+    submit()
+    settle()
+    assert js("return document.querySelector('#quote-status').dataset.state==='success';")
     for width in (320, 768, 1440, 3840):
         driver.viewport(width, 900)
         js("document.querySelector('.quote-submit').scrollIntoView({block:'center',behavior:'instant'});")
         assert js("return document.documentElement.scrollWidth<=innerWidth+1 && document.querySelector('#quote-status').getAttribute('aria-live')==='polite' && document.querySelector('#quote-status').getAttribute('aria-atomic')==='true';")
         driver.screenshot(f'contact-success-{width}', full=False)
-    for mode in ('http', 'rejection', 'network', 'invalid', 'null', 'unexpected', 'timeout'):
+    for mode in ('http', 'rejection', 'rejection-string', 'network', 'invalid', 'null', 'unexpected', 'timeout'):
         setup()
         js(f"window.mode='{mode}';")
         if mode == 'timeout':
@@ -131,10 +137,10 @@ try:
         assert js("return document.querySelector('#quote-status').dataset.state==='success' && document.querySelector('[name=details]').value==='';")
         print('Failure and retry:', mode, flush=True)
     setup('kontakt/')
-    js("document.querySelector('[name=botcheck]').checked=true;")
+    js("document.querySelector('[name=_honey]').value='spam';")
     submit()
     assert js("return requests.length===0;")
-    js("document.querySelector('[name=botcheck]').checked=false;")
+    js("document.querySelector('[name=_honey]').value='';")
     driver.command('Marionette:SetContext', {'value':'chrome'})
     js("window.liftgoContactMotionBackup={had:Services.prefs.prefHasUserValue('ui.prefersReducedMotion'),value:Services.prefs.getIntPref('ui.prefersReducedMotion',0)};Services.prefs.setIntPref('ui.prefersReducedMotion',1);")
     driver.command('Marionette:SetContext', {'value':'content'})

@@ -1,7 +1,5 @@
-/** Public browser-side Web3Forms key, associated with the recipient in Web3Forms.
- * This is not a private API credential. Never put private credentials here.
- */
+/** Public recipient email or activated FormSubmit token; not a private credential. */
+const recipient = import.meta.env.PUBLIC_FORMSUBMIT_RECIPIENT || 'doriko6256@goldvester.com';
 export const contact = {
-  endpoint: 'https://api.web3forms.com/submit',
-  accessKey: '117943d3-3b3c-4340-8673-c7253727ce39',
+  endpoint: `https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`,
 };

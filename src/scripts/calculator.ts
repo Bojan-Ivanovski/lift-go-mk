@@ -188,7 +188,7 @@ if (form) {
       return;
     }
 
-    if ((field('botcheck') as HTMLInputElement).checked) return;
+    if (field('_honey').value) return;
     const message = requestSummary();
     if (message === lastSentSummary) {
       setStatus('Ова барање веќе е испратено. За ново барање, измени ги деталите.', 'error');
@@ -198,15 +198,14 @@ if (form) {
     const timeout = window.setTimeout(() => controller.abort(), 20000);
     const email = field('customerEmail').value.trim();
     const payload = {
-      access_key: contact.accessKey,
-      subject: 'Барање за понуда — LiftGoMK',
-      from_name: 'LiftGoMK · Барање од веб-страницата',
+      _subject: 'Барање за понуда — LiftGoMK',
+      _template: 'table',
       name: field('name').value.trim(),
       email,
       phone: field('customerPhone').value.trim(),
       service: selectedItems().join(', ') || 'Не е наведено',
       message,
-      botcheck: false,
+      _honey: '',
     };
     const fieldsets = [...form.querySelectorAll<HTMLFieldSetElement>('fieldset')];
     const disabledStates = fieldsets.map((fieldset) => fieldset.disabled);
@@ -239,12 +238,15 @@ if (form) {
         typeof result !== 'object' ||
         result === null ||
         !('success' in result) ||
-        typeof result.success !== 'boolean'
+        (result.success !== true &&
+          result.success !== false &&
+          result.success !== 'true' &&
+          result.success !== 'false')
       ) {
         // An unexpected response cannot confirm whether delivery occurred.
-        throw new Error('Unexpected Web3Forms response');
+        throw new Error('Unexpected FormSubmit response');
       }
-      if (!result.success) {
+      if (result.success !== true && result.success !== 'true') {
         setStatus(
           'Барањето не е испратено. Обиди се повторно или јави се. Деталите остануваат во формата.',
           'error',
